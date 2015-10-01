@@ -1,0 +1,75 @@
+{
+    "$schema": "http://json-schema.org/draft-03/schema",
+    "title": "AuditPatch",
+    "description": "Audit Patch is for sending Audit Change Record to Audit Service",
+    "type": "object",
+    "required": false,
+    "additionalProperties": false,
+    "properties": {
+        "versionId": {
+            "description": "Version Number",
+            "type": "number",
+            "required": false
+        },
+        "id": {
+            "description": "Application generated id which can uniquely identify AuditPatch",
+            "type": "number",
+            "required": false
+        },
+        "userId": {
+            "description": "User who made the change",
+            "type": "string",
+            "required": false
+        },
+        "tenantId": {
+            "description": "Tenant Information where this change happened",
+            "type": "string",
+            "required": false
+        },
+        "timestamp": {
+            "description": "Time when this change happened",
+            "type": "number",
+            "required": false
+        },
+        "reason": {
+            "description": "Reason for the Change",
+            "type": "string",
+            "required": false
+        },
+        "action": {
+            "description": "Action performed on the object Like CREATE, UPDATE, DELETE",
+            "type": "string",
+            "required": false
+        },
+        "identifier": {
+            "description": "Object Identifier where the change happened",
+            "type": "string",
+            "required": false
+        },
+        "elementAction": {
+            "description": "Action on element",
+            "type": "string",
+            "required": false
+        },
+        "elementUri": {
+            "description": "Element Uri",
+            "type": "string",
+            "required": false
+        },
+        "elementOldValue": {
+            "description": "Element Old Value",
+            "type": "string",
+            "required": false
+        },
+        "elementNewValue": {
+            "description": "Element New Value",
+            "type": "string",
+            "required": false
+        },
+        "auditId": {
+            "description": "Id of the Audit Record",
+            "type": "string",
+            "required": false
+        }
+    }
+}

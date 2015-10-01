@@ -1,0 +1,62 @@
+{
+    "$schema": "http://json-schema.org/draft-03/schema",
+    "title": "AssetMeter",
+    "description": "AssetMeter which is the link between Asset and Meter",
+    "type": "object",
+    "required": false,
+    "additionalProperties": false,
+    "properties": {
+        "meterUri": {
+            "description": "Meter uri",
+            "type": "string",
+            "required": false
+        },
+        "sourceTagId": {
+            "description": "Time series tag id",
+            "type": "string",
+            "required": false
+        },
+        "dataSource": {
+            "description": "data source",
+            "type": "string",
+            "required": true,
+            "default": false
+        },
+        "isManual": {
+            "description": "Indicate if data can be manually input",
+            "type": "boolean",
+            "required": true,
+            "default": false
+        },
+         "outputMinimum": {
+            "description": "output Minimum Threshold",
+            "type": "number",
+            "required": false
+        },
+         "outputMaximum": {
+            "description": "output Maximum Threshold",
+            "type": "number",
+            "required": false
+        },
+         "lastCalibrated": {
+            "description": "lastCalibrated",
+            "type": "string",
+            "required": false
+        },
+         "isSelfPower": {
+            "description": "isSelfPower",
+            "type": "boolean",
+            "required": false
+        },
+         "meterClass": {
+            "description": "meterClass",
+            "type": "string",
+            "required": false
+        },
+        "locationUUID": {
+            "description": "locationUUID",
+            "type": "string",
+            "required": false
+        }
+    }
+}

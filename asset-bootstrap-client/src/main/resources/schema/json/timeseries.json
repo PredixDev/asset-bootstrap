@@ -1,0 +1,30 @@
+{
+    "$schema": "http://json-schema.org/draft-03/schema",
+    "title": "TimeSeries",
+    "description": "timeseries is for sending timeseries data to TimeSeries Service",
+    "type": "object",
+    "required": false,
+    "additionalProperties": false,
+    "properties": {
+        "uri": {
+            "description": "uri of specific tstagid and timestamp",
+            "type": "string",
+            "required": false
+        },
+        "time": {
+            "description": "Time when this change happened",
+            "type": "string",
+            "required": true
+        },
+        "value": {
+            "description": "value of particular timeseries record",
+            "type": "string",
+            "required": true
+        },
+         "tstagId": {
+            "description": "tstagId ",
+            "type": "string",
+            "required": false
+        }
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "$schema": "http://json-schema.org/draft-03/schema",
+    "title": "Name",
+    "description": "name and uri pair for type ahead (auto-complete) function for UI front-end",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+         "name": {
+            "description": "Name of the meta model object",
+            "type": "string",
+            "required": true
+        },
+        "uri": {
+            "description": "uri which can uniquely identify meta model object",
+            "type": "string",
+            "required": true
+        }
+    }
+}

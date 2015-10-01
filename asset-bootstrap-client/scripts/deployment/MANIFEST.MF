@@ -1,0 +1,39 @@
+Manifest-Version: 1.0
+Export-Package: com.ge.predix.solsvc.bootstrap.ams.factories;uses:="or
+ g.apache.cxf.jaxrs.ext,com.ge.predix.solsvc.bootstrap.ams.dto,org.apa
+ che.http,org.springframework.stereotype,com.ge.predix.solsvc.restclie
+ nt,org.slf4j,org.apache.http.message,org.springframework.beans.factor
+ y.annotation,org.codehaus.jackson.type,com.ge.predix.solsvc.bootstrap
+ .ams.integration,com.ge.predix.solsvc.bootstrap.ams.common,org.apache
+ .http.util";version="1.1.0.SNAPSHOT",com.ge.predix.solsvc.bootstrap.a
+ ms.integration;uses:="com.ge.predix.solsvc.bootstrap.ams.dto,org.code
+ haus.jackson.type,org.codehaus.jackson.map,org.codehaus.jackson";vers
+ ion="1.1.0.SNAPSHOT",com.ge.predix.solsvc.bootstrap.ams.common;uses:=
+ "org.codehaus.jackson.map,org.codehaus.jackson.map.annotate,org.codeh
+ aus.jackson.annotate,org.codehaus.jettison.json,com.google.common.bas
+ e,org.codehaus.jackson.type,javax.annotation,org.springframework.bean
+ s.factory.annotation,com.ge.predix.solsvc.restclient,com.ge.predix.so
+ lsvc.bootstrap.ams.dto,org.springframework.stereotype";version="1.1.0
+ .SNAPSHOT",com.ge.predix.solsvc.bootstrap.ams.dto;uses:="org.apache.c
+ ommons.lang.builder,com.fasterxml.jackson.annotation";version="1.1.0.
+ SNAPSHOT",schema.json;version="1.1.0.SNAPSHOT"
+Private-Package: .
+Bundle-Classpath: .
+Tool: Bnd-1.43.0
+Bundle-Name: SOLSVC ASSET asset-bootstrap-client
+Created-By: Apache Maven Bundle Plugin
+Bundle-Version: 1.1.0.SNAPSHOT
+Embed-Transitive: true
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: com.ge.predix.solsvc.asset-bootstrap-client
+Import-Package: com.fasterxml.jackson.annotation,com.ge.predix.solsvc.
+ restclient,com.google.common.base,javax.annotation,org.apache.commons
+ .lang.builder,org.apache.cxf.jaxrs.ext,org.apache.http,org.apache.htt
+ p.message,org.apache.http.util,org.codehaus.jackson,org.codehaus.jack
+ son.annotate,org.codehaus.jackson.map,org.codehaus.jackson.map.annota
+ te,org.codehaus.jackson.type,org.codehaus.jettison.json,org.slf4j,org
+ .springframework.beans.factory.annotation,org.springframework.stereot
+ ype
+Embed-Dependency: *;scope=compile|provided;optional=false;inline=false
+ ,
+

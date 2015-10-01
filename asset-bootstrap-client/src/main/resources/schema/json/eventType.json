@@ -1,0 +1,30 @@
+{
+    "$schema": "http://json-schema.org/draft-03/schema",
+    "title": "EventType",
+    "description": "event type",
+    "type": "object",
+    "required": false,
+    "additionalProperties": false,
+    "properties": {
+        "uri": {
+            "description": "unique identifier",
+            "type": "string",
+            "required": true
+        },
+        "name": {
+            "description": "Name of the event type",
+            "type": "string",
+            "required": true
+        },
+        "obsolete": {
+            "description": "Obsolete/non-obsolete event type",
+            "type": "boolean",
+            "required": false
+        },
+        "internal": {
+            "description": "Internal/external event type",
+            "type": "boolean",
+            "required": false
+        }
+    }
+}

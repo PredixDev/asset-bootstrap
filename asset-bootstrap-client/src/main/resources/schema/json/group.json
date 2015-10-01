@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "title": "Group",
+  "description": "Group",
+  "type": "object",
+  "required": false,
+  "additionalProperties": false,
+  "properties": {
+    "parent": {
+      "description": "Parent Reference",
+      "type": "string",
+      "required": false
+    },
+    "description": {
+      "description": "Description for the domain object",
+      "type": "string",
+      "required": false
+    },
+    "uri": {
+      "description": "unique identifier",
+      "type": "string",
+      "required": true
+    },
+    "level": {
+      "description": "category",
+      "type": "string",
+      "required": true
+    },
+    "name": {
+      "description": "String value denoting the group tag",
+      "type": "string",
+      "required": true
+    },
+    "createdate": {
+      "description": "Date when group was created",
+      "type": "string",
+      "required": false
+    }
+  }
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<features>
+    <feature name="gia-asset-rest-doc" version="14.3-SNAPSHOT">
+        <bundle start-level="100" start="true">file:./gia-asset/lib/jackson-core-2.2.2.jar</bundle>
+        <bundle start-level="100" start="true">file:./gia-asset/lib/jackson-annotations-2.2.2.jar</bundle>
+        <bundle start-level="100" start="true">file:./gia-asset/lib/jackson-databind-2.2.2.jar</bundle>
+        <bundle start-level="100" start="true">file:./gia-asset/lib/jackson-module-jsonSchema-2.2.2.jar</bundle>
+        <bundle start-level="100" start="true">wrap:file:./gia-asset/lib/restdoc-api-1.2.0.jar</bundle>
+        <bundle start-level="100" start="true">wrap:file:./gia-asset/lib/restdoc-cxf-1.5.0.jar</bundle>
+        <bundle start-level="100" start="true">wrap:file:./gia-asset/lib/restdoc-server-impl-1.6.0.jar</bundle>
+    </feature>
+    <feature name="gia-asset" version="14.3-SNAPSHOT">
+        <bundle start-level="120" start="true">file:./gia-asset/lib/common-service-14.3.0.jar</bundle>
+        <bundle start-level="120" start="true">file:./gia-asset/lib/asset-service-14.3.0.jar</bundle>
+        <bundle start-level="120" start="true">file:./gia-asset/lib/audit-service-14.3.0.jar</bundle>
+        <bundle start-level="120" start="true">file:./gia-asset/lib/timeseries-service-14.3.0.jar</bundle>
+    </feature>
+
+</features>

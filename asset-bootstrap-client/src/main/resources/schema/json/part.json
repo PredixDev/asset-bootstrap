@@ -1,0 +1,64 @@
+{
+    "$schema": "http://json-schema.org/draft-03/schema",
+    "title": "Part",
+    "description": "Part - meta model part which has attributes",
+    "type": "object",
+    "required": false,
+    "additionalProperties": false,
+    "properties": {
+        "uri": {
+            "description": "System generated uri which can uniquely identify Part, uri must be null or omitted when send JSon request for creating new Part, uri must be sent when send JSon request for updating  new Part, uri is always returned for creating, updating and retrieving Part",
+            "type": "string",
+            "required": false
+        },
+        "name": {
+            "description": "Name of the Part",
+            "type": "string",
+            "required": false
+        },
+        "description": {
+            "description": "Description for the domain object",
+            "type": "string",
+            "required": false
+        },
+        "classification": {
+            "description": "Classification of the Part",
+            "type": "string",
+            "required": false
+        },
+        "obsolete": {
+            "description": "Obsolete/non-obsolete part number",
+            "type": "boolean",
+            "required": true,
+            "default": false
+        },
+        "serialized": {
+            "description": "Serialized/non-serialized part number",
+            "type": "boolean",
+            "required": true,
+            "default": true
+        },
+        "alternate": {
+            "description": "alternate part numbers",
+            "type": "array",
+            "required": false,
+            "items": {
+                "type": "string"
+            }
+        },
+        "attributes": {
+            "description": "Map. key is attribute name and value is Attribute.",
+            "javaType": "java.util.LinkedHashMap<String, Attribute>",
+            "type": "object",
+            "required": false
+        },
+        "tags": {
+            "description": "Array of Tags",
+            "type": "array",
+            "required": false,
+            "items": {
+                "type": "string"
+            }
+        }
+    }
+}
