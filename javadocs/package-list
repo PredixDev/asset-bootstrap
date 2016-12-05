@@ -1,0 +1,4 @@
+com.ge.predix.solsvc.bootstrap.ams.common
+com.ge.predix.solsvc.bootstrap.ams.dto
+com.ge.predix.solsvc.bootstrap.ams.factories
+com.ge.predix.solsvc.bootstrap.ams.integration
