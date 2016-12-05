@@ -1,0 +1,50 @@
+{
+    "id": "structure",
+    "$schema": "http://json-schema.org/draft-03/schema",
+    "title": "Structure",
+    "description": "Attribute used by multiple domain objects",
+    "type": "object",
+    "required": false,
+    "additionalProperties": false,
+    "properties": {
+        "specification": {
+            "description": "Type of Structure. This may be Part, Classification or Template",
+            "type": "string"
+        },
+        "alternate": {
+            "description": "alternate part numbers",
+            "required": false,
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "position": {
+            "description": "Position for the specification",
+            "required": false,
+            "type": "string"
+        },
+        "label": {
+            "description": "label for the specification",
+            "required": false,
+            "type": "string"
+        },
+        "quantity": {
+            "description": "quantity used for non serialized part",
+            "required": false,
+            "type": "number"
+        },
+        "structure": {
+            "description": "Map. key is structure name and value is Structure.",
+            "javaType": "java.util.LinkedHashMap<String, Structure>",
+            "type": "object",
+            "required": false
+        },
+        "safetyCritical": {
+            "description": "safety critical flag",
+            "type": "boolean",
+            "required": false,
+            "default": false
+        }
+    }
+}

@@ -1,0 +1,62 @@
+{
+    "$schema": "http://json-schema.org/draft-03/schema",
+    "title": "Template",
+    "description": "Template - Asset Structure Template",
+    "type": "object",
+    "required": false,
+    "additionalProperties": false,
+    "properties": {
+        "uri": {
+            "description": "System generated uri which can uniquely identify Type, uri must be null or omitted when send JSon request for creating new Type, uri must be sent when send JSon request for updating  new Type, uri is always returned for creating, updating and retrieving Type",
+            "type": "string",
+            "required": false
+        },
+        "name": {
+            "description": "Name of the Type",
+            "type": "string",
+            "required": true
+        },
+        "description": {
+            "description": "Description for the domain object",
+            "type": "string",
+            "required": false
+        },
+        "specification": {
+            "description": "Part or Classification",
+            "type": "string",
+            "required": false
+        },
+        "obsolete": {
+            "description": "Obsolete/non-obsolete template",
+            "type": "boolean",
+            "required": false,
+            "default": false
+        },
+        "safetyCritical": {
+            "description": "safety critical flag",
+            "type": "boolean",
+            "required": false,
+            "default": false
+        },
+        "attributes": {
+            "description": "Map. key is attribute name and value is Attribute.",
+            "javaType": "java.util.LinkedHashMap<String, Attribute>",
+            "type": "object",
+            "required": false
+        },
+        "structure": {
+            "description": "Map. key is structure name and value is Structure.",
+            "javaType": "java.util.LinkedHashMap<String, Structure>",
+            "type": "object",
+            "required": false
+        },
+        "tags": {
+            "description": "Array of Tags",
+            "type": "array",
+            "required": false,
+            "items": {
+                "type": "string"
+            }
+        }
+    }
+}

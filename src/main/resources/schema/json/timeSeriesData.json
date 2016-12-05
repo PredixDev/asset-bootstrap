@@ -1,0 +1,25 @@
+{
+    "$schema": "http://json-schema.org/draft-03/schema",
+    "title": "Time Series Data",
+    "description": "time series data",
+    "type": "object",
+    "required": false,
+    "additionalProperties": false,
+    "properties": {
+        "uri": {
+            "description": "uniquely identify time series data",
+            "type": "string",
+            "required": false
+        },
+        "time": {
+            "description": "date and time in ISO format",
+            "type": "string",
+            "required": true
+        },
+        "value": {
+            "description": "data value at this time",
+            "type": "string",
+            "required": false
+        }
+    }
+}
