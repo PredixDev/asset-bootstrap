@@ -1,0 +1,15 @@
+{
+    "$schema": "http://json-schema.org/draft-03/schema",
+    "title": "AssetEvent",
+    "description": "asset event association",
+    "type": "object",
+    "required": false,
+    "additionalProperties": false,
+    "properties": {
+        "uri": {
+            "description": "event identifier",
+            "type": "string",
+            "required": true
+        }
+    }
+}

@@ -1,0 +1,58 @@
+{
+    "$schema": "http://json-schema.org/draft-03/schema",
+    "title": "Event",
+    "description": "Event which can be attached to asset",
+    "type": "object",
+    "required": false,
+    "additionalProperties": false,
+    "properties": {
+        "uri": {
+            "description": "uniquely identify Event",
+            "type": "string",
+            "required": false
+        },
+        "eventId": {
+            "description": "Id of the Event",
+            "type": "string",
+            "required": true
+        },
+        "eventType": {
+            "description": "uri for the event type",
+            "type": "string",
+            "required": false
+        },
+        "eventTypeUri": {
+            "description": "uri for the event type for UI list only",
+            "type": "string",
+            "required": false
+        },
+        "eventTypeName": {
+            "description": "name for the event type for UI list only",
+            "type": "string",
+            "required": false
+        },
+        "comment": {
+            "description": "Comment for the event",
+            "type": "string",
+            "required": false
+        },
+        "effectiveDate": {
+            "description": "effective date for the event",
+            "type": "string",
+            "required": true
+        },
+        "internal": {
+            "description": "boolean value to set event internal or external",
+            "type": "boolean",
+            "required": false
+        },
+        "tags": {
+            "description": "Array of Tags",
+            "type": "array",
+            "required": false,
+            "items": {
+                "type": "string"
+            }
+        }
+    }
+}

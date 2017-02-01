@@ -1,0 +1,48 @@
+{
+    "$schema": "http://json-schema.org/draft-03/schema",
+    "title": "Tag",
+    "description": "Tag - meta model tag",
+    "type": "object",
+    "required": false,
+    "additionalProperties": false,
+    "properties": {
+        "uri": {
+            "description": "uniquely identify Tag",
+            "type": "string",
+            "required": false
+        },
+        "name": {
+            "description": "Name of the Tag",
+            "type": "string",
+            "required": true
+        },
+        "description": {
+            "description": "Description for the domain object",
+            "type": "string",
+            "required": false
+        },
+        "dataType": {
+            "description": "Data Type, enumeration value - string, number, date, boolean",
+            "type": "string",
+            "required": true
+        },
+        "tagType": {
+            "description": "Tag Type, enumeration value - Continuous, Gauge, Characteristic",
+            "type": "string",
+            "required": true
+        },
+        "uom": {
+            "description": "Unit of measure",
+            "type": "string",
+            "required": false
+        },
+        "tags": {
+            "description": "Array of Tags",
+            "type": "array",
+            "required": false,
+            "items": {
+                "type": "string"
+            }
+        }
+    }
+}

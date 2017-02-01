@@ -1,0 +1,60 @@
+{
+    "$schema": "http://json-schema.org/draft-03/schema",
+    "title": "State",
+    "description": "State - meta model state",
+    "type": "object",
+    "required": false,
+    "additionalProperties": false,
+    "properties": {
+        "uri": {
+            "description": "uniquely identify state",
+            "type": "string",
+            "required": true
+        },
+        "displayName": {
+            "description": "Name of the state",
+            "type": "string",
+            "required": true
+        },
+        "order":{
+            "description": "sort order",
+            "type": "number",
+            "required": false
+        },
+        "description": {
+            "description": "Description for the domain object",
+            "type": "string",
+            "required": false
+        },
+        "requireEvent": {
+            "description": "Required event",
+            "type": "boolean",
+            "required": false,
+            "default": false
+        },
+        "obsolete": {
+            "description": "Obsolete/non-obsolete State",
+            "type": "boolean",
+            "required": true,
+            "default": false
+        },
+        "deleteAsset": {
+            "description": "Delete asset",
+            "type": "boolean",
+            "required": false,
+            "default": false
+        },
+        "editAsset": {
+            "description": "Edit asset",
+            "type": "boolean",
+            "required": false,
+            "default": false
+        },
+        "defaultState": {
+            "description": "Default asset",
+            "type": "boolean",
+            "required": false,
+            "default": false
+        }
+    }
+}

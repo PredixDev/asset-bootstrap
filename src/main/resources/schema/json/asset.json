@@ -1,0 +1,114 @@
+{
+    "$schema": "http://json-schema.org/draft-03/schema",
+    "title": "Asset",
+    "description": "Asset which is the instance of Type",
+    "type": "object",
+    "required": false,
+    "additionalProperties": false,
+    "properties": {
+        "uri": {
+            "description": "System generated uri which can uniquely identify Asset, uri must be null or omitted when send JSon request for creating new Asset, uri must be sent when send JSon request for updating  new Asset, uri is always returned for creating, updating and retrieving Asset",
+            "type": "string",
+            "required": false
+        },
+        "description": {
+            "description": "Description for the domain object",
+            "type": "string",
+            "required": false
+        },
+        "obsolete": {
+            "description": "Obsolete/non-obsolete Asset",
+            "type": "boolean",
+            "required": true,
+            "default": false
+        },
+        "empty": {
+            "description": "Empty/Real Asset",
+            "type": "boolean",
+            "required": true,
+            "default": false
+        },
+        "assetId":{
+            "description": "serial number for Asset",
+            "type": "string",
+            "required": false
+        },
+        "structureid":{
+            "description": "structure name associated",
+            "type": "string",
+            "required": false
+        },
+        "template4structure":{
+            "description": "connected template uri",
+            "type": "string",
+            "required": false
+        },
+        "position":{
+            "description": "connected template uri",
+            "type": "string",
+            "required": false
+        },
+        "sortorder":{
+            "description": "sort order with respect to sibling assets",
+            "type": "number",
+            "required": false
+        },
+        "parent":{
+            "description": "parent uri for Asset",
+            "type": "string",
+            "required": false
+        },
+        "specification": {
+            "description": "Type of Asset, value is the uri of Type, e.g. /type/12345",
+            "type": "string",
+            "required": false
+        },
+        "state": {
+            "description": "State of Asset, value is the uri of State, e.g. /state/12345",
+            "type": "string",
+            "required": false
+        },
+        "propagateState": {
+            "description": "Propagate State, when true the sate's flowed down to children",
+            "type": "boolean",
+            "required": false, 
+            "default": false
+        },
+        "currentEvent": {
+            "description": "Event associated with Asset, value is the uri of Event, e.g. /event/12345",
+            "type": "string",
+            "required": false
+        },
+        "group": {
+            "description": "collection uri for group.Value is collection uri, e.g. /asset/uuid/group",
+            "type": "string",
+            "required": false
+        },
+        "attributes": {
+            "description": "Map. key is attribute name and value is Attribute.",
+            "javaType": "java.util.LinkedHashMap<String, Attribute>",
+            "type": "object",
+            "required": false
+        },
+        "nonserialized":{
+            "description" : "contains non serialized part quantities",
+            "javaType": "java.util.LinkedHashMap<String, Object>",
+            "type": "object",
+            "required": false
+        },
+        "tags": {
+            "description": "Array of Tags",
+            "type": "array",
+            "required": false,
+            "items": {
+                "type": "string"
+            }
+        },
+        "tags": {
+            "description": "Map. key is tag key and value is AssetTag.",
+            "javaType": "java.util.LinkedHashMap<String, AssetTag>",
+            "type": "object",
+            "required": false
+        }
+    }
+}

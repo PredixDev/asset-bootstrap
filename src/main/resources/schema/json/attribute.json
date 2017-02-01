@@ -1,0 +1,64 @@
+{
+    "id":"attribute",
+    "$schema": "http://json-schema.org/draft-03/schema",
+    "title": "Attribute",
+    "description": "Attribute used by multiple domain objects",
+    "type": "object",
+    "required": false,
+    "additionalProperties": false,
+    "properties": {
+        "type": {
+            "description": "Type of Attribute",
+            "type": "string"
+        },
+        "enumeration": {
+            "description": "Enumeration constraint values",
+            "required": false,
+            "type": "array"
+        },
+        "unique": {
+            "description": "Unique constraint",
+            "required": false,
+            "type": "boolean"
+        },
+        "required": {
+            "description": "Required constraint",
+            "required": false,
+            "type": "boolean"
+        },
+        "display": {
+            "description": "this attribute should be displayed or not",
+            "required": false,
+            "type": "boolean"
+        },
+        "entropy": {
+            "description": "Read-only, entropy of Attribute",
+            "type": "number"
+        },
+        "value": {
+            "description:": "value",
+            "required": false,
+            "type": "array"
+        },
+        "uom": {
+            "description": "Unit of measure",
+            "type": "string",
+            "required": false
+        },
+        "cardinality": {
+            "description": "Cardinality of Attribute",
+            "type": "object",
+            "required": false,
+            "properties": {
+                "min": {
+                    "description": "Minimal value of cardinality",
+                    "type": "any"
+                },
+                "max": {
+                    "description": "Maximum value of cardinality",
+                    "type": "any"
+                }
+            }
+        }
+    }
+}
