@@ -37,7 +37,7 @@ public class AssetFactoryImpl extends FixtureFactory
         HttpResponse response = create(asset, headers);
         boolean expected = (response == null || response.getStatusLine() == null || response.getStatusLine()
                 .getStatusCode() != HttpStatus.SC_NO_CONTENT) ? false : true;
-        if ( !expected ) handleException(asset, headers, response);
+        if ( !expected ) handleException(this.assetConfig.getAssetUri(), asset, headers, response);
         return response;
 
     }
@@ -58,7 +58,7 @@ public class AssetFactoryImpl extends FixtureFactory
 	        boolean expected = (response == null || response.getStatusLine() == null
 	                || response.getStatusLine().getStatusCode() != HttpStatus.SC_NO_CONTENT || response.getStatusLine()
 	                .getStatusCode() != HttpStatus.SC_OK) ? false : true;
-	        if ( !expected ) handleException(jsonString, headers, response);
+	        if ( !expected ) handleException(this.assetConfig.getAssetUri(), jsonString, headers, response);
     	}finally {
     		if (response!=null )
 				try {
@@ -248,7 +248,7 @@ public class AssetFactoryImpl extends FixtureFactory
          response = delete(Asset.class, uuid, headers);
         boolean expected = (response == null || response.getStatusLine() == null || response.getStatusLine()
                 .getStatusCode() != HttpStatus.SC_NO_CONTENT) ? false : true;
-        if ( !expected ) handleException(uuid, headers, response);
+        if ( !expected ) handleException(this.assetConfig.getAssetUri(), uuid, headers, response);
 
     	} finally {
     		if (response!=null )

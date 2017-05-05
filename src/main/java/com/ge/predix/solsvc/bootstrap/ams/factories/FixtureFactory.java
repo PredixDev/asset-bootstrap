@@ -41,7 +41,7 @@ public abstract class FixtureFactory
     private static Logger        log      = LoggerFactory.getLogger(FixtureFactory.class);
 
     @Autowired
-    private RestMarshal          restMarshal;
+    protected RestMarshal          restMarshal;
     
 	/**
 	 * 
@@ -247,9 +247,18 @@ public abstract class FixtureFactory
         if ( object == null ) return null;
 
         //String url = this.config.createCustomModelUrlForPost(objects.get(0));
-        String url = this.restMarshal.createCustomModelUrlForPut(object, complexType);
+        String url = null;
+        String json = null;
+        if ( object instanceof String ) {
+            Object model = this.jsonMapper.fromJson((String)object, Object.class);
+            url = this.restMarshal.createCustomModelUrlForPut(model, complexType);
+            json = this.jsonMapper.toJson(Arrays.asList(model));
+        }
+        else {
+            url = this.restMarshal.createCustomModelUrlForPut(object, complexType);
+            json = this.jsonMapper.toJson(Arrays.asList(object));
+        }
         List<Header> localheaders = ensureDefaultHeadersArePresent(headers);
-        String json = this.jsonMapper.toJson(Arrays.asList(object));
         log.debug("UUUurl=" + url + " create json=" + json);
         CloseableHttpResponse response = this.restClient.put(url, json, localheaders, this.assetConfig.getAssetConnectionTimeout(), this.assetConfig.getAssetSocketTimeout());
 
@@ -366,7 +375,7 @@ public abstract class FixtureFactory
      * @return -
      */
     @SuppressWarnings("nls")
-    public CloseableHttpResponse getCustomModels(String filterUri, String model,  List<Header> headers)
+    public CloseableHttpResponse getCustomModels(String filterUri, List<Header> headers)
     {
         List<Header> localHeaders = ensureDefaultHeadersArePresent(headers);
         if ( !this.restClient.hasToken(headers) )
@@ -374,12 +383,13 @@ public abstract class FixtureFactory
         if ( !this.restClient.hasZoneId(headers) )
             throw new UnsupportedOperationException("calls to Predix Asset require an Predix-Zone-Id header");
         String assetUri = this.assetConfig.getAssetUri();
-        if ( !assetUri.endsWith("/") && !filterUri.startsWith("/") )
+        if ( !assetUri.endsWith("/") && filterUri != null && !filterUri.startsWith("/") )
                 assetUri += "/" + filterUri;
-        else
+        else if ( filterUri != null )
             assetUri += filterUri;
         return this.restClient.get(assetUri, localHeaders, this.assetConfig.getAssetConnectionTimeout(), this.assetConfig.getAssetSocketTimeout());
     }
+
 
     /**
      * 
@@ -420,7 +430,7 @@ public abstract class FixtureFactory
      * @param response -
      */
     @SuppressWarnings("nls")
-    protected void handleException(Object object, Object headers, HttpResponse response)
+    protected void handleException(String assetUri, Object object, Object headers, HttpResponse response)
     {
         HttpEntity entity = response.getEntity();
         String responseBody = null;
@@ -436,7 +446,7 @@ public abstract class FixtureFactory
         {
             log.error("Unable to parse HttpResponse Body, swallowing error since we are throwing a few lines down", e);
         }
-        throw new HttpResponseException((response == null ? "No HttpResponse" : response.toString())
+        throw new HttpResponseException(("Unable to call assetUrl" + assetUri + ".  " + response == null ? "No HttpResponse" : response.toString())
                 + " Response Body=" + responseBody + " Entity=" + object + " Headers=" + headers, response);
     }
     

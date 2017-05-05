@@ -30,7 +30,7 @@ public class TagFactoryImpl extends FixtureFactory implements TagFactory {
 			response = create(tag, headers);
 			boolean expected = (response==null || response.getStatusLine()==null || response.getStatusLine().getStatusCode() != HttpStatus.SC_NO_CONTENT )?false:true;
 			if ( !expected ) 
-				handleException(tag, headers, response);
+				handleException(this.assetConfig.getAssetUri(), tag, headers, response);
 		}finally {
     		if (response!=null )
 				try {
@@ -146,7 +146,7 @@ public class TagFactoryImpl extends FixtureFactory implements TagFactory {
 			response =delete(Tag.class, uuid, headers);
 			boolean expected = (response==null || response.getStatusLine()==null || response.getStatusLine().getStatusCode() != HttpStatus.SC_NO_CONTENT)?false:true;
 			if ( !expected ) 
-				handleException(uuid, headers, response);
+				handleException(this.assetConfig.getAssetUri(), uuid, headers, response);
 		}finally {
     		if (response!=null )
 				try {

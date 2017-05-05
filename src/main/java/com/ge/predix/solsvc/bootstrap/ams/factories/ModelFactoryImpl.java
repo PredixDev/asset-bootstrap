@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.commons.lang.WordUtils;
 import org.apache.http.Header;
 import org.apache.http.HttpStatus;
 import org.apache.http.ParseException;
@@ -16,7 +15,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.ge.predix.entity.model.Model;
 
 /**
@@ -29,10 +27,11 @@ public class ModelFactoryImpl extends FixtureFactory
         implements ModelFactory
 {
 
+    @SuppressWarnings("unused")
     private static Logger log = LoggerFactory.getLogger(ModelFactoryImpl.class);
 
     @Override
-    public <T> CloseableHttpResponse createModelFromJson(String json, List<Header> headers)
+    public CloseableHttpResponse createModelFromJson(String json, List<Header> headers)
     {
         CloseableHttpResponse response = null;
         try
@@ -41,7 +40,36 @@ public class ModelFactoryImpl extends FixtureFactory
             response = createCustomModels(models, json, headers);
             boolean expected = (response == null || response.getStatusLine() == null
                     || response.getStatusLine().getStatusCode() != HttpStatus.SC_NO_CONTENT) ? false : true;
-            if ( !expected ) handleException(models, headers, response);
+            if ( !expected ) handleException(this.restMarshal.createCustomModelUrlForPost(models.get(0)), models, headers, response);
+        }
+        finally
+        {
+            if ( response != null ) try
+            {
+                response.close();
+            }
+            catch (IOException e)
+            {
+                throw new RuntimeException(e.getMessage(), e);
+            }
+        }
+        return response;
+    }
+
+    /* (non-Javadoc)
+     * @see com.ge.predix.solsvc.bootstrap.ams.factories.ModelFactory#createFromJson(java.lang.String, java.util.List)
+     */
+    @Override
+    public CloseableHttpResponse createFromJson(String resource, String json, List<Header> headers)
+    {
+        CloseableHttpResponse response = null;
+        try
+        {
+            String url = this.restMarshal.getAssetUri(resource);
+            response = this.restClient.post(url, json, headers, this.assetConfig.getAssetConnectionTimeout(), this.assetConfig.getAssetSocketTimeout());
+            boolean expected = (response == null || response.getStatusLine() == null
+                    || response.getStatusLine().getStatusCode() != HttpStatus.SC_NO_CONTENT) ? false : true;
+            if ( !expected ) handleException(url, url, headers, response);
         }
         finally
         {
@@ -66,7 +94,7 @@ public class ModelFactoryImpl extends FixtureFactory
             response = createCustomModels(objs, headers);
             boolean expected = (response == null || response.getStatusLine() == null
                     || response.getStatusLine().getStatusCode() != HttpStatus.SC_NO_CONTENT) ? false : true;
-            if ( !expected ) handleException(objs, headers, response);
+            if ( !expected ) handleException(this.restMarshal.createCustomModelUrlForPost(objs.get(0)),objs, headers, response);
         }
         finally
         {
@@ -91,7 +119,8 @@ public class ModelFactoryImpl extends FixtureFactory
             response = updateCustomModel(obj, headers);
             boolean expected = (response == null || response.getStatusLine() == null
                     || response.getStatusLine().getStatusCode() != HttpStatus.SC_NO_CONTENT) ? false : true;
-            if ( !expected ) handleException(obj, headers, response);
+            String url = this.assetConfig.getAssetUri();
+            if ( !expected ) handleException(url, obj, headers, response);
         }
         finally
         {
@@ -116,7 +145,8 @@ public class ModelFactoryImpl extends FixtureFactory
             response = updateCustomModel(obj, modelName, headers);
             boolean expected = (response == null || response.getStatusLine() == null
                     || response.getStatusLine().getStatusCode() != HttpStatus.SC_NO_CONTENT) ? false : true;
-            if ( !expected ) handleException(obj, headers, response);
+            String url = this.assetConfig.getAssetUri();
+            if ( !expected ) handleException(url, obj, headers, response);
         }
         finally
         {
@@ -132,25 +162,34 @@ public class ModelFactoryImpl extends FixtureFactory
         return response;
     }
 
-    @SuppressWarnings("nls")
+    @SuppressWarnings({
+            "nls", "rawtypes"
+    })
     @Override
-    public <T> List<T> getModels(String filter, String model, Class<T> clazz, List<Header> headers)
+    public List<String> getModels(String filter,List<Header> headers)
     {
         CloseableHttpResponse response = null;
         try
         {
-            response = getCustomModels(filter, model, headers);
+            response = getCustomModels(filter, headers);
             if ( response == null || response.getStatusLine() == null
                     || (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK
                             && response.getStatusLine().getStatusCode() != HttpStatus.SC_NOT_FOUND) )
             {
-                handleException(model, headers, response);
+                String uri = this.assetConfig.getAssetUri();
+                handleException(uri, null, headers, response);
             }
             try
             {
+                @SuppressWarnings("null")
                 String body = EntityUtils.toString(response.getEntity());
-                List<T> item = this.jsonMapper.fromJsonArray(body, clazz);
-                return item;
+                List<LinkedHashMap> items = this.jsonMapper.fromJsonArray(body, LinkedHashMap.class);
+                ArrayList<String> result = new ArrayList<String>();
+                for ( LinkedHashMap lhm : items ) {
+                    result.add(this.jsonMapper.toJson(lhm));
+                    
+                }
+                return result;
             }
             catch (ParseException | IOException e)
             {
@@ -169,39 +208,44 @@ public class ModelFactoryImpl extends FixtureFactory
             }
         }
     }
-
+    
     /*
      * (non-Javadoc)
      * @see
      * com.ge.predix.solsvc.bootstrap.ams.factories.ModelFactory#getModels(java.
      * lang.String, java.lang.String, java.util.List)
      */
-    @SuppressWarnings("nls")
+    @SuppressWarnings({
+            "nls", "unchecked"
+    })
     @Override
-    public List<Object> getModels(String filter, String complexType, List<Header> headers)
+    public <T> List<T> getModels(String filter, Class<T> complexType, List<Header> headers)
     {
         CloseableHttpResponse response = null;
         try
         {
-            response = getCustomModels(filter, complexType, headers);
+            response = getCustomModels(filter, headers);
             if ( response == null || response.getStatusLine() == null
                     || (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK
-                            && response.getStatusLine().getStatusCode() != HttpStatus.SC_NOT_FOUND) )
+                            && response.getStatusLine().getStatusCode() != HttpStatus.SC_NOT_FOUND && response.getStatusLine().getStatusCode() != HttpStatus.SC_PARTIAL_CONTENT) )
             {
-                handleException(complexType, headers, response);
+                String uri = this.assetConfig.getAssetUri();
+                handleException(uri, complexType, headers, response);
             }
             try
             {
                 String body = EntityUtils.toString(response.getEntity());
                 if ( body.equals("[]") ) return null;
-
-                List<Object> models = new ArrayList<Object>();
-                List mappedObject2 = this.jsonMapper.fromJsonArray(body, complexType);
+                List<Object> models = new ArrayList<Object>();                
+                List<T> mappedObject2 = this.jsonMapper.fromJsonArray(body, complexType);
                 for (Object listItem : mappedObject2)
                 {
                     if ( listItem instanceof LinkedHashMap )
                     {
-                        LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>) listItem;
+                        @SuppressWarnings({
+                                "rawtypes"
+                        })
+                        LinkedHashMap map = (LinkedHashMap) listItem;
                         LinkedHashMapModel linkedModel = new LinkedHashMapModel();
                         linkedModel.setMap(map);
                         models.add(linkedModel);
@@ -211,30 +255,72 @@ public class ModelFactoryImpl extends FixtureFactory
                         models.add(listItem);
                     }
                 }
-
-                // Object mappedObject = this.jsonMapper.fromJson(body, Object.class);
-                // @SuppressWarnings("unchecked") //Jackson converts to a LinkedHashMap when not marshaling directly to an entity
-                // List<LinkedHashMap<String, Object>> list = (List<LinkedHashMap<String, Object>>) mappedObject;
-                // //now in the map set the complexType attribute of entity, so Jackson can use the corresponding @JsonTypeInfo annotation
-                // LinkedHashMapModel linkedModel = null;
-                // for (LinkedHashMap<String, Object> map : list) {
-                // linkedModel = new LinkedHashMapModel();
-                // linkedModel.setMap(map);
-                // map.put("complexType", getBaseModelName(complexType));
-                // }
-                // String listBody = this.jsonMapper.toJson(list);
-                // listBody = "{\"complexType\":\"ModelList\", \"model\":" + listBody + "}";
-                // ModelList modelList;
-                // try {
-                // modelList = this.jsonMapper.fromJson(listBody, ModelList.class);
-                // models.addAll(modelList.getModel());
-                // } catch (RuntimeException e) {
-                // log.warn("unable to convert to " + complexType
-                // + ". we will return the linkedHashMap so you can traverse it manually. json=" + listBody + " e=" + e.getMessage());
-                // // throw new RuntimeException("unable to convert to " +
-                // // modelName,e);
-                // models.add(linkedModel);
-                // }
+                return (List<T>) models;
+            }
+            catch (ParseException | IOException e)
+            {
+                throw new RuntimeException("Failed to unmarshall response. ", e);
+            }
+        }
+        finally
+        {
+            if ( response != null ) try
+            {
+                response.close();
+            }
+            catch (IOException e)
+            {
+                throw new RuntimeException(e.getMessage(), e);
+            }
+        }
+    }
+    
+    /*
+     * (non-Javadoc)
+     * @see
+     * com.ge.predix.solsvc.bootstrap.ams.factories.ModelFactory#getModels(java.
+     * lang.String, java.lang.String, java.util.List)
+     */
+    @SuppressWarnings({
+            "nls", "unchecked"
+    })
+    @Override
+    public List<Object> getModels(String filter, String complexType, List<Header> headers)
+    {
+        CloseableHttpResponse response = null; 
+        try
+        {
+            response = getCustomModels(filter, headers);
+            if ( response == null || response.getStatusLine() == null
+                    || (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK
+                            && response.getStatusLine().getStatusCode() != HttpStatus.SC_NOT_FOUND && response.getStatusLine().getStatusCode() != HttpStatus.SC_PARTIAL_CONTENT) )
+            {
+                String uri = this.assetConfig.getAssetUri();
+                handleException(uri, complexType, headers, response);
+            }
+            try
+            {
+                String body = EntityUtils.toString(response.getEntity());
+                if ( body.equals("[]") ) return null;
+                List<Object> models = new ArrayList<Object>();                
+                List<Object> mappedObject2 = this.jsonMapper.fromJsonArray(body, complexType);
+                for (Object listItem : mappedObject2)
+                {
+                    if ( listItem instanceof LinkedHashMap )
+                    {
+                        @SuppressWarnings({
+                                "rawtypes"
+                        })
+                        LinkedHashMap map = (LinkedHashMap) listItem;
+                        LinkedHashMapModel linkedModel = new LinkedHashMapModel();
+                        linkedModel.setMap(map);
+                        models.add(linkedModel);
+                    }
+                    else
+                    {
+                        models.add(listItem);
+                    }
+                }
                 return models;
             }
             catch (ParseException | IOException e)
@@ -255,30 +341,6 @@ public class ModelFactoryImpl extends FixtureFactory
         }
     }
 
-    /**
-     * @param modelName
-     * @return -
-     */
-    @SuppressWarnings("nls")
-    private String getBaseModelName(String modelName)
-    {
-        if ( modelName.contains(".") ) modelName = modelName.substring(modelName.lastIndexOf(".") + 1);
-        modelName = WordUtils.capitalize(modelName);
-        return modelName;
-    }
-
-    /**
-     * @return -
-     */
-    private <M extends Model> TypeReference<List<M>> getTypeRef()
-    {
-        TypeReference<List<M>> type = new TypeReference<List<M>>()
-        {
-            //
-        };
-        return type;
-    }
-
     @SuppressWarnings("nls")
     @Override
     public CloseableHttpResponse deleteModel(String modelUri, List<Header> headers)
@@ -294,7 +356,7 @@ public class ModelFactoryImpl extends FixtureFactory
             response = delete(assetUri, headers);
             boolean expected = (response == null || response.getStatusLine() == null
                     || response.getStatusLine().getStatusCode() != HttpStatus.SC_NO_CONTENT) ? false : true;
-            if ( !expected ) handleException(assetUri, headers, response);
+            if ( !expected ) handleException(assetUri, assetUri, headers, response);
         }
         finally
         {
@@ -310,7 +372,6 @@ public class ModelFactoryImpl extends FixtureFactory
         return response;
     }
 
-    @SuppressWarnings("nls")
     @Override
     public List<Header> setZoneIdInHeaders(List<Header> headers)
     {

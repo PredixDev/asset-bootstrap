@@ -82,7 +82,7 @@ public class ModelFactoryCFTest {
 		// It gets changed by mock testing PredixAssetClient
 		MockitoAnnotations.initMocks(this);
 		this.modelFactory.setRestClient(this.restClient);
-		response = Mockito.mock(CloseableHttpResponse.class);
+		this.response = Mockito.mock(CloseableHttpResponse.class);
 	}
 
 	/**
@@ -103,7 +103,6 @@ public class ModelFactoryCFTest {
 	 * @throws IllegalStateException
 	 *             -
 	 */
-	@SuppressWarnings("nls")
 	@Test
 	public void testModelCRUD() throws IllegalStateException, IOException {
 		/*
@@ -115,10 +114,10 @@ public class ModelFactoryCFTest {
 
 		Mockito.when(
 				this.restClient.delete(Matchers.anyString(),
-						Matchers.anyListOf(Header.class), Matchers.anyInt(), Matchers.anyInt())).thenReturn(response);
+						Matchers.anyListOf(Header.class), Matchers.anyInt(), Matchers.anyInt())).thenReturn(this.response);
 		Mockito.when(
 				this.restClient.put(Matchers.anyString(), Matchers.anyString(),
-						Matchers.anyListOf(Header.class),Matchers.anyInt(), Matchers.anyInt())).thenReturn(response);
+						Matchers.anyListOf(Header.class),Matchers.anyInt(), Matchers.anyInt())).thenReturn(this.response);
 		Mockito.when(this.restClient.hasToken(Matchers.anyListOf(Header.class)))
 				.thenReturn(true);
 		Mockito.when(
@@ -217,23 +216,23 @@ public class ModelFactoryCFTest {
 		 * BasicStatusLine line = new BasicStatusLine(proto, HttpStatus.SC_OK,
 		 * "test reason"); HttpResponse response = new BasicHttpResponse(line);
 		 */
-		Mockito.when(response.getStatusLine()).thenReturn(
+		Mockito.when(this.response.getStatusLine()).thenReturn(
 				new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1),
 						HttpStatus.SC_OK, "test reason!"));
 		HttpEntity entity = Mockito.mock(HttpEntity.class);
-		response.setEntity(entity);
+		this.response.setEntity(entity);
 		Mockito.when(
 				this.restClient.get(Matchers.anyString(),
-						Matchers.anyListOf(Header.class),Matchers.anyInt(), Matchers.anyInt())).thenReturn(response);
+						Matchers.anyListOf(Header.class),Matchers.anyInt(), Matchers.anyInt())).thenReturn(this.response);
 		String body = "[{\"uri\":\"/engine/ENG1.23\",\"serialNo\":12345}]";
 		InputStream stream = new ByteArrayInputStream(body.getBytes());
 		Mockito.when(entity.getContent()).thenReturn(stream);
 		Mockito.when(entity.getContentLength()).thenReturn(
 				new Long(body.length()));
-		Mockito.when(response.getEntity()).thenReturn(entity);
+		Mockito.when(this.response.getEntity()).thenReturn(entity);
 
 		List<JetEngineNoModel> engines = this.modelFactory.getModels(
-				"/engine/ENG1.23", "engine",
+				"/engine/ENG1.23", 
 				JetEngineNoModel.class, headers);
 		assertNotNull(engines);
 		assertEquals("12345", engines.get(0).getSerialNo().toString());
@@ -257,25 +256,25 @@ public class ModelFactoryCFTest {
 		 * BasicStatusLine line = new BasicStatusLine(proto, HttpStatus.SC_OK,
 		 * "test reason2"); HttpResponse response = new BasicHttpResponse(line);
 		 */
-		Mockito.when(response.getStatusLine()).thenReturn(
+		Mockito.when(this.response.getStatusLine()).thenReturn(
 				new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1),
 						HttpStatus.SC_OK, "test reason!"));
 
 		HttpEntity entity = Mockito.mock(HttpEntity.class);
-		response.setEntity(entity);
+		this.response.setEntity(entity);
 		Mockito.when(
 				this.restClient.get(Matchers.anyString(),
 						Matchers.anyListOf(Header.class),Matchers.anyInt(), Matchers.anyInt())).thenReturn(
-				(CloseableHttpResponse) response);
+				this.response);
 		String body = "[{\"uri\":\"/engine/ENG1.23\",\"serialNo\":12345},{\"uri\":\"/engine/ENG1.23\",\"serialNo\":12345}]";
 		InputStream stream = new ByteArrayInputStream(body.getBytes());
 		Mockito.when(entity.getContent()).thenReturn(stream);
 		Mockito.when(entity.getContentLength()).thenReturn(
 				new Long(body.length()));
-		Mockito.when(response.getEntity()).thenReturn(entity);
+		Mockito.when(this.response.getEntity()).thenReturn(entity);
 
 		List<JetEngineNoModel> engines = this.modelFactory.getModels("/engine",
-				"engine", JetEngineNoModel.class, headers);
+				JetEngineNoModel.class, headers);
 		assertNotNull(engines);
 		assertTrue(engines.size() > 1);
 	}
@@ -294,17 +293,17 @@ public class ModelFactoryCFTest {
 		 * HttpStatus.SC_NO_CONTENT, "test reason"); HttpResponse response = new
 		 * BasicHttpResponse(line);
 		 */
-		Mockito.when(response.getStatusLine()).thenReturn(
+		Mockito.when(this.response.getStatusLine()).thenReturn(
 				new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1),
 						HttpStatus.SC_NO_CONTENT, "FINE!"));
 		Mockito.when(
 				this.modelFactory.deleteModel(Matchers.anyString(),
-						Matchers.anyListOf(Header.class))).thenReturn(response);
-		response = this.modelFactory.deleteModel("/engine/ENG1.23", headers);
-		assertEquals(HttpStatus.SC_NO_CONTENT, response.getStatusLine()
+						Matchers.anyListOf(Header.class))).thenReturn(this.response);
+		this.response = this.modelFactory.deleteModel("/engine/ENG1.23", headers);
+		assertEquals(HttpStatus.SC_NO_CONTENT, this.response.getStatusLine()
 				.getStatusCode());
-		response = this.modelFactory.deleteModel("/engine/ENG2.23", headers);
-		assertEquals(HttpStatus.SC_NO_CONTENT, response.getStatusLine()
+		this.response = this.modelFactory.deleteModel("/engine/ENG2.23", headers);
+		assertEquals(HttpStatus.SC_NO_CONTENT, this.response.getStatusLine()
 				.getStatusCode());
 	}
 

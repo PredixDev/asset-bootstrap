@@ -19,6 +19,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ge.predix.entity.asset.Asset;
 import com.ge.predix.entity.asset.AssetTag;
+import com.ge.predix.entity.datasource.TimeseriesDatasource;
 import com.ge.predix.entity.util.map.Map;
 import com.ge.predix.solsvc.bootstrap.ams.common.BaseFactoryIT;
 import com.ge.predix.solsvc.bootstrap.ams.dto.Attribute;
@@ -125,13 +126,14 @@ public class AssetFactoryCFIT extends BaseFactoryIT
      * @param headers
      *            -
      */
+    @SuppressWarnings("nls")
     public void testCreateSimpleAssetsGetToken(List<Header> headers)
     {
         Asset asset = new Asset();
-        asset.setAssetId("geturbine_1"); //$NON-NLS-1$
-        asset.setDescription("GE turbine");//$NON-NLS-1$
-        asset.setUri("/asset/getrb_2");//$NON-NLS-1$
-        asset.setGroup("/group/gent_belgium");//$NON-NLS-1$
+        asset.setAssetId("geturbine_1"); 
+        asset.setDescription("GE turbine");
+        asset.setUri("/asset/getrb_2");
+        asset.setGroup("/group/gent_belgium");
         HttpResponse response = this.assetFactory.createAsset(asset, headers);
         Assert.assertEquals(response.getStatusLine().getStatusCode(), HttpStatus.SC_NO_CONTENT);
     }
@@ -150,10 +152,10 @@ public class AssetFactoryCFIT extends BaseFactoryIT
     public void testCreateSimpleAssets(List<Header> headers)
     {
         Asset asset = new Asset();
-        asset.setAssetId("geturbine_1");//$NON-NLS-1$
-        asset.setDescription("GE turbine");//$NON-NLS-1$
-        asset.setUri("/asset/getrb_2");//$NON-NLS-1$
-        // asset.setGroup("/group/gent_belgium");//$NON-NLS-1$
+        asset.setAssetId("geturbine_1");
+        asset.setDescription("GE turbine");
+        asset.setUri("/asset/getrb_2");
+        // asset.setGroup("/group/gent_belgium");
         String json = this.jsonMapper.toJson(asset);
         List<Asset> list = new ArrayList<Asset>();
         list.add(asset);
@@ -178,29 +180,31 @@ public class AssetFactoryCFIT extends BaseFactoryIT
     /**
      * -
      */
+    @SuppressWarnings("nls")
     public void testAssociateGroupToAsset()
     {
         List<Header> headers = this.restClient.getSecureTokenForClientId();
         this.restClient.addZoneToHeaders(headers, this.assetRestConfig.getZoneId());
-        this.assetFactory.associateGroupToAsset("/getrb_2/group", //$NON-NLS-1$
-                "[\"/group/gent_belgium\"]", headers);//$NON-NLS-1$
-        this.assetFactory.associateGroupToAsset("/getrb_1234/group", //$NON-NLS-1$
-                "[\"/group/montreal_qc_canada\"]", headers);//$NON-NLS-1$
-        this.assetFactory.associateGroupToAsset("/getrb_2345/group", //$NON-NLS-1$
-                "[\"/group/montreal_qc_canada\"]", headers);//$NON-NLS-1$
+        this.assetFactory.associateGroupToAsset("/getrb_2/group", 
+                "[\"/group/gent_belgium\"]", headers);
+        this.assetFactory.associateGroupToAsset("/getrb_1234/group", 
+                "[\"/group/montreal_qc_canada\"]", headers);
+        this.assetFactory.associateGroupToAsset("/getrb_2345/group", 
+                "[\"/group/montreal_qc_canada\"]", headers);
 
     }
 
     /**
      * -
      */
+    @SuppressWarnings("nls")
     public void testGroupWthAsset()
     {
         List<Header> headers = this.restClient.getSecureTokenForClientId();
         this.restClient.addZoneToHeaders(headers, this.assetRestConfig.getZoneId());
         @SuppressWarnings("unused")
-        List<Asset> list = this.assetFactory.getAssetsByFilter(null, "group", //$NON-NLS-1$
-                "/group/gent_belgium", headers);//$NON-NLS-1$
+        List<Asset> list = this.assetFactory.getAssetsByFilter(null, "group", 
+                "/group/gent_belgium", headers);
         //// $NON-NLS-1$log.debug(list.toString());
     }
 
@@ -210,33 +214,34 @@ public class AssetFactoryCFIT extends BaseFactoryIT
      * @param headers
      *            -
      */
+    @SuppressWarnings("nls")
     public void testCreateAssetsWithClassifications(List<Header> headers)
     {
         // create Classification first :
         Classification classification = new Classification();
-        classification.setName("GEMach");//$NON-NLS-1$
-        classification.setUri("/classification/GasTurbineTest");//$NON-NLS-1$
-        classification.setDescription("Creating classification GasTurbineTest for testing purpose");//$NON-NLS-1$
+        classification.setName("GEMach");
+        classification.setUri("/classification/GasTurbineTest");
+        classification.setDescription("Creating classification GasTurbineTest for testing purpose");
         classification.setObsolete(false);
         HttpResponse response = this.classificationFactory.createClassification(classification, headers);
         Assert.assertEquals(response.getStatusLine().getStatusCode(), HttpStatus.SC_NO_CONTENT);
 
         Asset asset = new Asset();
-        asset.setAssetId("geturbine_1234");//$NON-NLS-1$
-        asset.setDescription("wind turbine 3 blades");//$NON-NLS-1$
-        asset.setUri("/asset/getrb_1234");//$NON-NLS-1$
+        asset.setAssetId("geturbine_1234");
+        asset.setDescription("wind turbine 3 blades");
+        asset.setUri("/asset/getrb_1234");
         asset.setAttributes(createTestArributeMapForTurbine());
-        asset.setClassificationUri("/classification/GasTurbineTest");//$NON-NLS-1$
+        asset.setClassificationUri("/classification/GasTurbineTest");
 
         response = this.assetFactory.createAsset(asset, headers);
         Assert.assertEquals(response.getStatusLine().getStatusCode(), HttpStatus.SC_NO_CONTENT);
 
         Asset asset2 = new Asset();
-        asset2.setAssetId("geturbine_2345");//$NON-NLS-1$
-        asset2.setDescription("water turbine 4 blades");//$NON-NLS-1$
-        asset2.setUri("/asset/getrb_2345");//$NON-NLS-1$
+        asset2.setAssetId("geturbine_2345");
+        asset2.setDescription("water turbine 4 blades");
+        asset2.setUri("/asset/getrb_2345");
         asset2.setAttributes(createTestArributeMapForTurbine());
-        asset2.setClassificationUri("/classification/GasTurbineTest");//$NON-NLS-1$
+        asset2.setClassificationUri("/classification/GasTurbineTest");
 
         response = this.assetFactory.createAsset(asset2, headers);
     }
@@ -247,17 +252,19 @@ public class AssetFactoryCFIT extends BaseFactoryIT
      * @param headers
      *            -
      */
-    @SuppressWarnings("resource")
+    @SuppressWarnings({
+            "resource", "nls"
+    })
     public void testUpdateAsset(List<Header> headers)
     {
-        Asset asset = this.assetFactory.getAsset("getrb_1234", headers);//$NON-NLS-1$
-        asset.setDescription("wind turbine 3 blades--Updated");//$NON-NLS-1$
-        asset.setParentUri("/asset/getrb_2");//$NON-NLS-1$
+        Asset asset = this.assetFactory.getAsset("getrb_1234", headers);
+        asset.setDescription("wind turbine 3 blades--Updated");
+        asset.setParentUri("/asset/getrb_2");
         CloseableHttpResponse response = (CloseableHttpResponse) this.assetFactory.updateAsset(asset, headers);
         Assert.assertEquals(response.getStatusLine().getStatusCode(), HttpStatus.SC_NO_CONTENT);
 
-        Asset uAsset = this.assetFactory.getAsset("getrb_1234", headers);//$NON-NLS-1$
-        assertEquals("wind turbine 3 blades--Updated", uAsset.getDescription());//$NON-NLS-1$
+        Asset uAsset = this.assetFactory.getAsset("getrb_1234", headers);
+        assertEquals("wind turbine 3 blades--Updated", uAsset.getDescription());
     }
 
     /**
@@ -268,19 +275,21 @@ public class AssetFactoryCFIT extends BaseFactoryIT
      */
     @SuppressWarnings(
     {
-            "unchecked", "unused"
+            "unchecked", "unused", "nls"
     })
     public void testAssociateTagWithAsset(List<Header> headers)
     {
-        Asset asset = this.assetFactory.getAsset("getrb_1234", headers);//$NON-NLS-1$
+        Asset asset = this.assetFactory.getAsset("getrb_1234", headers);
 
         AssetTag aTag = new AssetTag();
-        aTag.setTagUri("/tag/pressure");//$NON-NLS-1$
-        aTag.setOutputMaximum(2.5);
-        aTag.setOutputMinimum(1.5);
-        aTag.setSourceTagId("getrb_1234.pressure");//$NON-NLS-1$
+        aTag.setTagUri("/tag/pressure");
+        aTag.setHiAlarmThreshold(2.5);
+        aTag.setLoAlarmThreshold(1.5);
+        TimeseriesDatasource timeseriesDatasource = new TimeseriesDatasource();
+        timeseriesDatasource.setTag("getrb_1234.pressure");
+        aTag.setTimeseriesDatasource(timeseriesDatasource);
         Map map = new Map();
-        map.put("PRESSURE", aTag);//$NON-NLS-1$
+        map.put("PRESSURE", aTag);
         asset.setAssetTag(map);
 
         String json = this.jsonMapper.toJson(asset);
@@ -288,10 +297,10 @@ public class AssetFactoryCFIT extends BaseFactoryIT
 
         HttpResponse response = this.assetFactory.updateAsset(asset, headers);
         Assert.assertEquals(response.getStatusLine().getStatusCode(), HttpStatus.SC_NO_CONTENT);
-        Asset uAsset = this.assetFactory.getAsset("getrb_1234", headers);//$NON-NLS-1$
-        AssetTag returnedATag = (AssetTag) uAsset.getAssetTag().get("PRESSURE"); //$NON-NLS-1$
-        assertEquals("getrb_1234.pressure", returnedATag.getSourceTagId());//$NON-NLS-1$
-        assertEquals("/tag/pressure", returnedATag.getTagUri());//$NON-NLS-1$
+        Asset uAsset = this.assetFactory.getAsset("getrb_1234", headers);
+        AssetTag returnedATag = (AssetTag) uAsset.getAssetTag().get("PRESSURE"); 
+        assertEquals("getrb_1234.pressure", returnedATag.getTimeseriesDatasource().getTag());
+        assertEquals("/tag/pressure", returnedATag.getTagUri());
 
     }
 
@@ -301,12 +310,13 @@ public class AssetFactoryCFIT extends BaseFactoryIT
      * @param headers
      *            -
      */
+    @SuppressWarnings("nls")
     public void testGetChildAssets(List<Header> headers)
     {
-        List<Asset> list = this.assetFactory.getAssetsByFilter(null, "parentUri", //$NON-NLS-1$
-                "/asset/getrb_2", headers);//$NON-NLS-1$
+        List<Asset> list = this.assetFactory.getAssetsByFilter(null, "parentUri", 
+                "/asset/getrb_2", headers);
         assertEquals(1, list.size());
-        assertEquals("/asset/getrb_1234", list.get(0).getUri());//$NON-NLS-1$
+        assertEquals("/asset/getrb_1234", list.get(0).getUri());
     }
 
     /**
@@ -315,10 +325,11 @@ public class AssetFactoryCFIT extends BaseFactoryIT
      * @param headers
      *            -
      */
+    @SuppressWarnings("nls")
     public void testGetAssetsWithSameClassification(List<Header> headers)
     {
-        List<Asset> list = this.assetFactory.getAssetsByFilter(null, "classificationUri", //$NON-NLS-1$
-                "/classification/GasTurbineTest", //$NON-NLS-1$
+        List<Asset> list = this.assetFactory.getAssetsByFilter(null, "classificationUri", 
+                "/classification/GasTurbineTest", 
                 headers);
         assertEquals(2, list.size());
     }
@@ -329,42 +340,45 @@ public class AssetFactoryCFIT extends BaseFactoryIT
      * @param headers
      *            -
      */
+    @SuppressWarnings("nls")
     public void testDeleteAssets(List<Header> headers)
     {
-        this.assetFactory.deleteAsset("getrb_2345", headers);//$NON-NLS-1$
-        this.assetFactory.deleteAsset("getrb_1234", headers);//$NON-NLS-1$
-        this.assetFactory.deleteAsset("getrb_2", headers);//$NON-NLS-1$
-        this.assetFactory.deleteAsset("getrb_3", headers);//$NON-NLS-1$
+        this.assetFactory.deleteAsset("getrb_2345", headers);
+        this.assetFactory.deleteAsset("getrb_1234", headers);
+        this.assetFactory.deleteAsset("getrb_2", headers);
+        this.assetFactory.deleteAsset("getrb_3", headers);
     }
 
     /**
      * @return -
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({
+            "unchecked", "nls"
+    })
     public Map createTestArributeMapForTurbine()
     {
         Map attributeMap = new Map();
         Attribute dimensions = new Attribute();
-        dimensions.setType("string");//$NON-NLS-1$
+        dimensions.setType("string");
         dimensions.setRequired(true);
         dimensions.setDisplay(true);
 
         List<Object> size = new ArrayList<Object>();
-        size.add("5mx1mx15m");//$NON-NLS-1$
+        size.add("5mx1mx15m");
         dimensions.setValue(size);
 
         // Notice this attribute is from classification
         Attribute make = new Attribute();
-        make.setType("string");//$NON-NLS-1$
+        make.setType("string");
         make.setRequired(true);
         make.setDisplay(true);
 
         List<Object> makes = new ArrayList<Object>();
-        makes.add("Toyota");//$NON-NLS-1$
+        makes.add("Toyota");
         make.setValue(makes);
 
-        attributeMap.put("make", make);//$NON-NLS-1$
-        attributeMap.put("dimensions", dimensions);//$NON-NLS-1$
+        attributeMap.put("make", make);
+        attributeMap.put("dimensions", dimensions);
         return attributeMap;
     }
 

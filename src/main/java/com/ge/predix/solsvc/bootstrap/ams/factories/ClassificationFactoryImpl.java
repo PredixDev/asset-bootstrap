@@ -36,7 +36,7 @@ public class ClassificationFactoryImpl extends FixtureFactory
 	    	response = create(classification, headers);
 	        boolean expected = (response == null || response.getStatusLine() == null || response.getStatusLine()
 	                .getStatusCode() != HttpStatus.SC_NO_CONTENT) ? false : true;
-	        if ( !expected ) handleException(classification, headers, response);
+	        if ( !expected ) handleException(this.assetConfig.getAssetUri(), classification, headers, response);
     	}finally {
     		if (response!=null )
 				try {
@@ -57,7 +57,7 @@ public class ClassificationFactoryImpl extends FixtureFactory
 	    	response = (CloseableHttpResponse) update(classification, headers);
 	        boolean expected = (response == null || response.getStatusLine() == null || response.getStatusLine()
 	                .getStatusCode() != HttpStatus.SC_NO_CONTENT) ? false : true;
-	        if ( !expected ) handleException(classification, headers, response);
+	        if ( !expected ) handleException(this.assetConfig.getAssetUri(), classification, headers, response);
     	}finally {
     		if (response!=null )
 				try {
@@ -221,7 +221,7 @@ public class ClassificationFactoryImpl extends FixtureFactory
 	         response = delete(Classification.class, uuid, headers);
 	        boolean expected = (response == null || response.getStatusLine() == null || response.getStatusLine()
 	                .getStatusCode() != HttpStatus.SC_NO_CONTENT) ? false : true;
-	        if ( !expected ) handleException(uuid, headers, response);
+	        if ( !expected ) handleException(this.assetConfig.getAssetUri(), uuid, headers, response);
     	} finally {
     		if (response!=null )
     			try {

@@ -246,6 +246,26 @@ class RestMarshal {
 		}
 		return null;
 	}
+	
+	/**
+	 * AssetUri 
+	 * @param subresource
+	 * @return -
+	 */
+	@SuppressWarnings("nls")
+    public String getAssetUri(String subresource){
+        String baseUrl = this.assetConfig.getAssetUri();
+        String uri = subresource;   
+        if ( uri == null )
+            throw new UnsupportedOperationException("invalid uri=null");
+      
+        if(uri.startsWith("/")) {
+            baseUrl = baseUrl+uri;
+        }else {
+            baseUrl = baseUrl+"/"+uri;
+        }
+        return baseUrl;
+    }   
 
 	/**
 	 * 

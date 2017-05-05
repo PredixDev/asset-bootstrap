@@ -30,7 +30,7 @@ public class GroupFactoryImpl extends FixtureFactory implements GroupFactory {
 			 response = create(group, headers);
 			boolean expected = (response==null || response.getStatusLine()==null || response.getStatusLine().getStatusCode() != HttpStatus.SC_NO_CONTENT)?false:true;
 			if ( !expected ) 
-				handleException(group, headers, response);
+				handleException(this.assetConfig.getAssetUri(), group, headers, response);
 		}finally {
     		if (response!=null )
 				try {
@@ -150,7 +150,7 @@ public class GroupFactoryImpl extends FixtureFactory implements GroupFactory {
 			response =delete(Group.class, uuid, headers);
 			boolean expected = (response==null || response.getStatusLine()==null || response.getStatusLine().getStatusCode() != HttpStatus.SC_NO_CONTENT)?false:true;
 			if ( !expected ) 
-				handleException(uuid, headers, response);
+				handleException(this.assetConfig.getAssetUri(), uuid, headers, response);
 		}finally {
     		if (response!=null )
 				try {

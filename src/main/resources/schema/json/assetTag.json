@@ -28,12 +28,12 @@
             "required": true,
             "default": false
         },
-         "outputMinimum": {
+         "loAlarmThreshold": {
             "description": "output Minimum Threshold",
             "type": "number",
             "required": false
         },
-         "outputMaximum": {
+         "hiAlarmThreshold": {
             "description": "output Maximum Threshold",
             "type": "number",
             "required": false

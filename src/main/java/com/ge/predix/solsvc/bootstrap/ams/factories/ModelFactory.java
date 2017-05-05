@@ -21,10 +21,20 @@ public interface ModelFactory  extends IFixtureFactory{
 	 * @param headers List<Header> headers
 	 * @return boolean
 	 */
-    public <T> CloseableHttpResponse createModelFromJson(String json, List<Header> headers);
+    public CloseableHttpResponse createModelFromJson(String json, List<Header> headers);
 	
 	
 	/**
+     * Create Asset json 
+     * @param resource -
+     * @param json -
+     * @param headers -
+     * @return -
+     */
+    public CloseableHttpResponse createFromJson(String resource, String json, List<Header> headers);
+
+
+    /**
 	 * 
 	 * @param objs -
 	 * @param <T> -
@@ -51,41 +61,64 @@ public interface ModelFactory  extends IFixtureFactory{
      */
     public <T> CloseableHttpResponse updateModel(T obj, String modelName, List<Header> headers) ;
 
-	/**
-	 * This method does a nice little trick so that you can unmarshal any entity that you've stored in Predix Asset.  
-	 * 
-	 * The JSON unmarshaler needs to know and have a couple of things before it can convert the json to an Object.  The Object and child Object must have
-	 * annotations to help the unmarshaler.  The Object has to be registered with the unmarshaler.  
-	 * 
-	 * Say, JetEngine extends AviationModel extends Model.   And Wing extends AviationModel extends Model.
-	 * 
-	 * We have a utility in JsonMapper that registers any child objects with the unmarshaler, so JetEngine and Wing are registered with the unmarshaler automatically if you simply provide the parent class.
-	 * In this case the parent class is Model, which is already registered, so you just have to ensure JetEngine and Wing extend Model and that the @XmlSeeAlso annotation includes the child.  
-	 * 
-	 * The json gets a key/value pair like this added.          "complexType": "JetEngine",
-	 * which tells the unmarshaler the name of the Child Object.
 
-	 * After querying for json string, we simply place the result in a List<Model> in the json.  Then if the child Object (JetEngin or Wing) is registered with the unmarshaler it simply unmarshals.
-	 * 
-	 * 
-	 * @param filter -
-	 * @param model - 
-	 * @param clazz -
-	 * @param headers List<Header> headers
-	 * @return Model
-	 */
-	public  <T> List<T> getModels(String filter, String model, Class<T> clazz, List<Header> headers);
-	
     /**
-     * @param query -
-     * @param modelName -
-     * @param model -
-     * @param clazz -
+     * This method does a nice little trick so that you can unmarshal any entity that you've stored in Predix Asset.  
+     * 
+     * The JSON unmarshaler needs to know and have a couple of things before it can convert the json to an Object.  The Object and child Object must have
+     * annotations to help the unmarshaler.  The Object has to be registered with the unmarshaler.  
+     * 
+     * Say, JetEngine extends AviationModel extends Model.   And Wing extends AviationModel extends Model.
+     * 
+     * We have a utility in JsonMapper that registers any child objects with the unmarshaler, so JetEngine and Wing are registered with the unmarshaler automatically if you simply provide the parent class.
+     * In this case the parent class is Model, which is already registered, so you just have to ensure JetEngine and Wing extend Model and that the @XmlSeeAlso annotation includes the child.  
+     * 
+     * The json gets a key/value pair like this added.          "complexType": "JetEngine",
+     * which tells the unmarshaler the name of the Child Object.
+    
+     * After querying for json string, we simply place the result in a List<Model> in the json.  Then if the child Object (JetEngin or Wing) is registered with the unmarshaler it simply unmarshals.
+     * 
+     * @param <T> -
+     * @param filter -
+     * @param complexType - 
+     * @param headers List<Header> headers
+     * @return Model
+     */
+    public <T> List<T> getModels(String filter, Class<T> complexType, List<Header> headers);
+
+
+    /**
+     * This method does a nice little trick so that you can unmarshal any entity that you've stored in Predix Asset.   
+     * 
+     * The JSON unmarshaler needs to know and have a couple of things before it can convert the json to an Object.  The Object and child Object must have
+     * annotations to help the unmarshaler.  The Object has to be registered with the unmarshaler.  
+     * 
+     * Say, JetEngine extends AviationModel extends Model.   And Wing extends AviationModel extends Model.
+     * 
+     * We have a utility in JsonMapper that registers any child objects with the unmarshaler, so JetEngine and Wing are registered with the unmarshaler automatically if you simply provide the parent class.
+     * In this case the parent class is Model, which is already registered, so you just have to ensure JetEngine and Wing extend Model and that the @XmlSeeAlso annotation includes the child.  
+     * 
+     * The json gets a key/value pair like this added.          "complexType": "JetEngine",
+     * which tells the unmarshaler the name of the Child Object.
+    
+     * After querying for json string, we simply place the result in a List<Model> in the json.  Then if the child Object (JetEngin or Wing) is registered with the unmarshaler it simply unmarshals.
+     * 
+     * @param filter -
+     * @param complexType - 
+     * @param headers List<Header> headers
+     * @return Model
+     */
+    public List<Object> getModels(String filter, String complexType, List<Header> headers);
+
+    /**
+     * @param filter -
      * @param headers -
      * @return -
      */
-    public List<Object> getModels(String query, String modelName, List<Header> headers);
+    public List<String> getModels(String filter, List<Header> headers);
 
+
+    
     /**
 	 *  
 	 * @param uri -
