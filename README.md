@@ -11,12 +11,12 @@ Asset Bootstrap SDK
 Welcome to Asset Bootstrap SDK. This is a SDK in Java for calling the Predix Asset API to perform CRUD operation on [Asset Domain Objects](https://www.predix.io/docs/#zChUPu1U). It has built in mechanism to perform authenticated calls to Asset API. It can be used as a dependency to other java back-end applications for performing CRUD operations on Asset Domain Objects.
 For further information please view the [Asset Tutorial](https://www.predix.io/resources/tutorials/journey.html#1709).
 
-##Download Asset Bootstrap SDK
+## Download Asset Bootstrap SDK
 
 ```
 git clone https://github.com/PredixDev/asset-bootstrap.git
 ```
-##Build it
+## Build it
 
 1. From the command line, go the the project directory.
 2. Run as
@@ -24,7 +24,7 @@ git clone https://github.com/PredixDev/asset-bootstrap.git
 ```
   mvn clean package
 ```
-##Run integration tests
+## Run integration tests
 
 1. Edit config/application.properties as follows. For further information on configuring Predix Asset service, please refer to the [Asset Tutorial](https://www.predix.io/resources/tutorials/journey.html#1709).
 
@@ -55,7 +55,7 @@ git clone https://github.com/PredixDev/asset-bootstrap.git
 ``` 
  mvn clean install.
 ```
-##How to include as a dependency
+## How to include as a dependency
 1. Modify the pom.xml as follows in the SDK for which you would like to have asset-bootstrap as a dependency.
 2. Add the following under the ```<dependencies>``` section with the latest version:
 ```
@@ -66,13 +66,13 @@ git clone https://github.com/PredixDev/asset-bootstrap.git
 </dependency>
  ```
  
-##Tech Stack
+## Tech Stack
 
  - Spring
  - SpringTest
  - Maven
  
-##More Details
+## More Details
  
  [Asset Tutorial](https://www.predix.io/resources/tutorials/journey.html#1709)
 
