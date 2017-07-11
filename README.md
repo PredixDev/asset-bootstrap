@@ -31,7 +31,7 @@ git clone https://github.com/PredixDev/asset-bootstrap.git
 ```
  # e.g. predix.oauth.issuerId=https://36492c1e-657c-4377-ac51-add963552460.predix-uaa.cloud.com/oauth/token
 
- predix.oauth.issuerId=put.your.uaa.issuerId.here
+ predix.oauth.issuerId.url=put.your.uaa.issuerId.here
 
  #you may put client:secret as unencoded cleartext by setting predix.oauth.clientIdEncode=true
  predix.oauth.clientIdEncode=false
