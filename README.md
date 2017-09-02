@@ -29,7 +29,7 @@ git clone https://github.com/PredixDev/asset-bootstrap.git
 1. Edit config/application.properties as follows. For further information on configuring Predix Asset service, please refer to the [Asset Tutorial](https://www.predix.io/resources/tutorials/journey.html#1709).
 
 ```
- # e.g. predix.oauth.issuerId=https://36492c1e-657c-4377-ac51-add963552460.predix-uaa.cloud.com/oauth/token
+ # e.g. predix.oauth.issuerId.url=https://36492c1e-657c-4377-ac51-add963552460.predix-uaa.cloud.com/oauth/token
 
  predix.oauth.issuerId.url=put.your.uaa.issuerId.here
 
