@@ -34,11 +34,12 @@ public class AssetConfig implements EnvironmentAware, IAssetConfig {
 	@Value("${predix.asset.restProtocol:https}")
 	private String restProtocol;
 
-	@Value("${predix.asset.restHost:localhost}")
+	@Value("${predix.asset.uri:localhost}")
 	private String assetUri;
 
-	@Value("${predix.asset.restPort:443}")
-	private String assetPort;
+	//@author 212672942: We don't need port separation anymore as both HTTP and HTTPS are served by 8080
+//	@Value("${predix.asset.restPort:443}")
+//	private String assetPort;
 
 	@Value("${predix.asset.zoneid}")
 	private String zoneId;
@@ -61,10 +62,14 @@ public class AssetConfig implements EnvironmentAware, IAssetConfig {
 		String assetUri = null;
 		if (this.vcapRestUri == null) {
 			// mvp2 Asset does not need any localRestBaseResource
-			if (StringUtils.isEmpty(this.assetPort) || this.assetPort.equals("80"))
-				assetUri = this.restProtocol + "://" + this.assetUri;
-			else
-				assetUri = this.restProtocol + "://" + this.assetUri + ":" + this.assetPort;
+			
+			//@author 212672942: we don't need to mention https port separately at the end of the URL now. Plus assetPort is removed in this version.
+
+//			if (StringUtils.isEmpty(this.assetPort) || this.assetPort.equals("80"))
+//				assetUri = this.restProtocol + "://" + this.assetUri;
+//			else
+				assetUri = this.restProtocol + "://" + this.assetUri; //+ ":" + this.assetPort;
+			
 		} else {
 			assetUri = this.vcapRestUri;
 		}
@@ -153,9 +158,10 @@ public class AssetConfig implements EnvironmentAware, IAssetConfig {
 			if (this.vcapRestUri != null) {
 				URI uri = new URI(this.vcapRestUri);
 				this.assetUri = uri.getHost();
-				if (uri.getPort() > 0) {
-					this.assetPort = Integer.toString(uri.getPort());
-				}
+				//@author: 212672942  We don't need the assetPort- not required since the http and https requests are now both handled by 8080 
+		//				if (uri.getPort() > 0) {
+		//					this.assetPort = Integer.toString(uri.getPort());
+		//				}
 				this.restProtocol = uri.getScheme();
 			}
 

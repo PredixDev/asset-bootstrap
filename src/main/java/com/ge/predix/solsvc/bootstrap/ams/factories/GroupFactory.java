@@ -16,18 +16,24 @@ public interface GroupFactory extends IFixtureFactory {
 
 	
 	/**
+	 * @deprecated Method is now deprecated. This method might be removed in future release.
 	 * @param group Group
 	 * @param headers -
 	 * @return boolean
 	 */
+	//@author 212672942
+	@Deprecated
 	public HttpResponse createGroup(Group group, List<Header> headers);
 	
 	
 	/**
+	 * @deprecated Method is now deprecated.This method might be removed in future release.
 	 * @param group Group
 	 * @param headers -
 	 * @return boolean
 	 */
+	//@author 212672942
+	@Deprecated
 	public HttpResponse updateGroup(Group group, List<Header> headers);
 
 	
@@ -51,20 +57,22 @@ public interface GroupFactory extends IFixtureFactory {
 			String value, List<Header> headers);
 
 	/**
-	 * 
+	 * @deprecated Method is now deprecated. This method might be removed in future release.
 	 * @param headers -
 	 * @return List<Group>
 	 */
+	//@author 212672942
+	@Deprecated
 	public List<Group> getAllGroups(List<Header> headers);
 
 	/**
 
-	 * 
+	 * @deprecated Method is now deprecated. This method might be removed in future release.
 	 * @param uuid String 
 	 * @param headers -
 	 * @return  boolean
 	 */
+	//@author 212672942
+	@Deprecated
 	public HttpResponse deleteGroup(String uuid, List<Header> headers);
-    
-
 }

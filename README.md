@@ -38,9 +38,9 @@ git clone https://github.com/PredixDev/asset-bootstrap.git
  predix.oauth.clientId=you.should.base64encode(put.your.clientId:put.your.clientSecret separated by a colon)  
 
 
- # e.g. predix.asset.restHost=predix-asset.cloud.com
+ # e.g. predix.asset.uri=predix-asset.cloud.com
 
- predix.asset.restHost=put.your.asset.service.instance.name.hostname.here
+ predix.asset.uri=put.your.asset.service.instance.name.hostname.here
 
  predix.asset.zoneid=put.your.asset.zoneid
 
