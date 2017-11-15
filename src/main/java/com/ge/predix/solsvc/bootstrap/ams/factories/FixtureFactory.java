@@ -34,7 +34,12 @@ import com.ge.predix.solsvc.restclient.impl.RestClient;
  * 
  * 
  * @author 212421693
+ * 
+ * @author 212672942
+ * @deprecated Removing this class in the next future release- moved all needed methods to ModelFactoryImpl
  */
+
+@Deprecated
 public abstract class FixtureFactory
         implements RestConstants, IFixtureFactory
 {

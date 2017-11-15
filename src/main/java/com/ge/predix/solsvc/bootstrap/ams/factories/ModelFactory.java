@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.http.Header;
 import org.apache.http.client.methods.CloseableHttpResponse;
 
+import com.ge.predix.solsvc.bootstrap.ams.common.IAssetConfig;
+import com.ge.predix.solsvc.restclient.config.IOauthRestConfig;
 import com.ge.predix.solsvc.restclient.impl.RestClient;
 
 
@@ -12,7 +14,7 @@ import com.ge.predix.solsvc.restclient.impl.RestClient;
  * 
  * @author 212438846
  */
-public interface ModelFactory  extends IFixtureFactory{
+public interface ModelFactory { //extends IFixtureFactory{
 
 	
 	/**
@@ -139,6 +141,15 @@ public interface ModelFactory  extends IFixtureFactory{
      * @return -
      */
     public List<Header> setZoneIdInHeaders(List<Header> headers);
+    
+    /**
+	 * @param aConfig -
+	 * @param rConfig -
+	 * 
+	 * @author 212672942: moved this method from the old Interface IFixtureFactory
+	 */
+	public abstract void overrideAssetRestConfig(IAssetConfig aConfig,
+			IOauthRestConfig rConfig);
 
 
 

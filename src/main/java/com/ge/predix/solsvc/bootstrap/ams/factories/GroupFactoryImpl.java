@@ -20,7 +20,8 @@ import com.ge.predix.solsvc.bootstrap.ams.dto.Group;
  */
 @Component(value="groupFactory")
 @Scope("prototype")
-public class GroupFactoryImpl extends FixtureFactory implements GroupFactory {
+//@author 212672942. Removed FixtureFactory class and extending ModelFactoryImpl
+public class GroupFactoryImpl extends ModelFactoryImpl implements GroupFactory {
 	
 
 	@Override

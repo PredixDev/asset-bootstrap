@@ -12,7 +12,8 @@ import com.ge.predix.solsvc.bootstrap.ams.dto.Tag;
  * 
  * @author 212421693
  */
-public interface TagFactory extends IFixtureFactory
+//@author 212672942
+public interface TagFactory //extends IFixtureFactory
 {
     /**
      * @deprecated Method is now deprecated. This method might be removed in future release.

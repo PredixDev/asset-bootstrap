@@ -12,7 +12,8 @@ import com.ge.predix.solsvc.bootstrap.ams.dto.Group;
  * 
  * @author 212421693
  */
-public interface GroupFactory extends IFixtureFactory {
+//@author 212672942
+public interface GroupFactory { //extends IFixtureFactory {
 
 	
 	/**

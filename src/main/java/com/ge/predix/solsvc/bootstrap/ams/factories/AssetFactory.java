@@ -13,7 +13,8 @@ import com.ge.predix.entity.asset.Asset;
  * 
  * @author 212421693
  */
-public interface AssetFactory extends IFixtureFactory{
+//@author 212672942
+public interface AssetFactory { //extends IFixtureFactory{
 
 	/**
 	 * @deprecated Method is now deprecated. This method might be removed in future release.

@@ -16,7 +16,9 @@ import com.ge.predix.solsvc.restclient.config.IOauthRestConfig;
 /**
  * 
  * @author 212438846
+ * @deprecated Removing this Interface in the next future release- moved  method to ModelFactory
  */
+@Deprecated
 public interface IFixtureFactory {
 
 	/**

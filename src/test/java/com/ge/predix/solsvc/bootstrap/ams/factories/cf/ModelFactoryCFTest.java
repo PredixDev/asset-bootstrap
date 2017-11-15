@@ -28,6 +28,7 @@ import org.mockito.MockitoAnnotations;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -35,6 +36,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ge.predix.solsvc.bootstrap.ams.common.IAssetConfig;
 import com.ge.predix.solsvc.bootstrap.ams.factories.ModelFactory;
+import com.ge.predix.solsvc.bootstrap.ams.factories.ModelFactoryImpl;
 import com.ge.predix.solsvc.bootstrap.ams.factories.cf.testclasses.JetEngine;
 import com.ge.predix.solsvc.bootstrap.ams.factories.cf.testclasses.JetEngineNoModel;
 import com.ge.predix.solsvc.bootstrap.ams.factories.cf.testclasses.JetEnginePart;
@@ -62,8 +64,9 @@ public class ModelFactoryCFTest {
 	private RestClient restClient;
 
 	@Autowired
-	private ModelFactory modelFactory;
-
+	@Qualifier("ModelFactory")
+	private ModelFactoryImpl modelFactory;
+	
 	@Autowired
 	private IAssetConfig assetRestConfig;
 

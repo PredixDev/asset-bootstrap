@@ -20,7 +20,8 @@ import com.ge.predix.solsvc.bootstrap.ams.dto.Tag;
  */
 @Component(value="tagFactory")
 @Scope("prototype")
-public class TagFactoryImpl extends FixtureFactory implements TagFactory {
+//@author 212672942. Removed FixtureFactory class and extending ModelFactoryImpl
+public class TagFactoryImpl extends ModelFactoryImpl implements TagFactory {
 	
 
 	@Override

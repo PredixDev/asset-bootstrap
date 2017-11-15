@@ -12,8 +12,8 @@ import com.ge.predix.solsvc.bootstrap.ams.dto.Classification;
  * 
  * @author 212421693
  */
-
-public interface ClassificationFactory extends IFixtureFactory
+//@author 212672942
+public interface ClassificationFactory //extends IFixtureFactory
 {
 
     /**

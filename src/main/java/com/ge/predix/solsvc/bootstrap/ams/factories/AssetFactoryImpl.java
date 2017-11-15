@@ -15,6 +15,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.ge.predix.entity.asset.Asset;
+import com.ge.predix.solsvc.bootstrap.ams.common.IAssetConfig;
+import com.ge.predix.solsvc.restclient.config.IOauthRestConfig;
 
 
 
@@ -24,11 +26,13 @@ import com.ge.predix.entity.asset.Asset;
  */
 @Component(value = "assetFactory")
 @Scope("prototype")
-public class AssetFactoryImpl extends FixtureFactory
+//added extends by sushma removing Fixture
+public class AssetFactoryImpl extends ModelFactoryImpl
         implements AssetFactory
 {
     @SuppressWarnings("unused")
     private static final Logger log = LoggerFactory.getLogger(AssetFactoryImpl.class);
+
 
 
     @Override

@@ -23,7 +23,8 @@ import com.ge.predix.solsvc.bootstrap.ams.dto.Classification;
  */
 @Component(value = "classificationFactory")
 @Scope("prototype")
-public class ClassificationFactoryImpl extends FixtureFactory
+//@author 212672942. Removed FixtureFactory class and extending ModelFactoryImpl
+public class ClassificationFactoryImpl extends ModelFactoryImpl
         implements ClassificationFactory
 {
     private static final Logger log = LoggerFactory.getLogger(ClassificationFactoryImpl.class);
