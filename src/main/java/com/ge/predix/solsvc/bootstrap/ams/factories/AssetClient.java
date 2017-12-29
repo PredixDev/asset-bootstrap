@@ -3,9 +3,13 @@ package com.ge.predix.solsvc.bootstrap.ams.factories;
 import java.util.List;
 
 import org.apache.http.Header;
+import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.CloseableHttpResponse;
 
+import com.ge.predix.entity.asset.Asset;
 import com.ge.predix.solsvc.bootstrap.ams.common.IAssetConfig;
+import com.ge.predix.solsvc.bootstrap.ams.dto.Group;
+import com.ge.predix.solsvc.bootstrap.ams.dto.Tag;
 import com.ge.predix.solsvc.restclient.config.IOauthRestConfig;
 import com.ge.predix.solsvc.restclient.impl.RestClient;
 
@@ -14,7 +18,7 @@ import com.ge.predix.solsvc.restclient.impl.RestClient;
  * 
  * @author 212438846
  */
-public interface ModelFactory { //extends IFixtureFactory{
+public interface AssetClient { 
 
 	
 	/**
@@ -118,8 +122,19 @@ public interface ModelFactory { //extends IFixtureFactory{
      * @return -
      */
     public List<String> getModels(String filter, List<Header> headers);
-
-
+    
+    
+    
+    /**
+     * @param Class
+     * @p[aram pathParam
+     * @param filter 
+     * @param value of filter
+     * @param headers
+     * @return -
+     */
+    public <T> List<T> getModelsByFilter(Class<T> complexType, String pathParam, String filter, 
+    		String value, List<Header> headers);
     
     /**
 	 *  
@@ -150,7 +165,5 @@ public interface ModelFactory { //extends IFixtureFactory{
 	 */
 	public abstract void overrideAssetRestConfig(IAssetConfig aConfig,
 			IOauthRestConfig rConfig);
-
-
-
+	
 }

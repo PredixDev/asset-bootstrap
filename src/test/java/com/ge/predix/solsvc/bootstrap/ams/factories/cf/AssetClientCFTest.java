@@ -33,10 +33,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import com.ge.predix.solsvc.bootstrap.ams.common.IAssetConfig;
-import com.ge.predix.solsvc.bootstrap.ams.factories.ModelFactory;
-import com.ge.predix.solsvc.bootstrap.ams.factories.ModelFactoryImpl;
+import com.ge.predix.solsvc.bootstrap.ams.factories.AssetClientImpl;
 import com.ge.predix.solsvc.bootstrap.ams.factories.cf.testclasses.JetEngine;
 import com.ge.predix.solsvc.bootstrap.ams.factories.cf.testclasses.JetEngineNoModel;
 import com.ge.predix.solsvc.bootstrap.ams.factories.cf.testclasses.JetEnginePart;
@@ -55,17 +53,17 @@ import com.ge.predix.solsvc.restclient.impl.RestClient;
 		"classpath*:META-INF/spring/predix-rest-client-sb-properties-context.xml" })
 @ActiveProfiles(profiles = "local")
 @Component
-public class ModelFactoryCFTest {
+public class AssetClientCFTest {
 
 	private static final Logger log = LoggerFactory
-			.getLogger(ModelFactoryCFTest.class);
+			.getLogger(AssetClientCFTest.class);
 
 	@Mock
 	private RestClient restClient;
 
 	@Autowired
-	@Qualifier("ModelFactory")
-	private ModelFactoryImpl modelFactory;
+	@Qualifier("AssetClient")
+	private AssetClientImpl assetClient;
 	
 	@Autowired
 	private IAssetConfig assetRestConfig;
@@ -84,7 +82,7 @@ public class ModelFactoryCFTest {
 		// make sure the correct RestClient is wired to serviceBase
 		// It gets changed by mock testing PredixAssetClient
 		MockitoAnnotations.initMocks(this);
-		this.modelFactory.setRestClient(this.restClient);
+		this.assetClient.setRestClient(this.restClient);
 		this.response = Mockito.mock(CloseableHttpResponse.class);
 	}
 
@@ -164,7 +162,7 @@ public class ModelFactoryCFTest {
 		engines.add(engine1);
 		engines.add(engine2);
 
-		HttpResponse resp = this.modelFactory.createModel(engines, headers);
+		HttpResponse resp = this.assetClient.createModel(engines, headers);
 		assertNotNull(resp);
 		assertEquals(HttpStatus.SC_NO_CONTENT, resp.getStatusLine()
 				.getStatusCode());
@@ -192,10 +190,10 @@ public class ModelFactoryCFTest {
 		BasicStatusLine line = new BasicStatusLine(proto,
 				HttpStatus.SC_NO_CONTENT, "test reason");
 		HttpResponse response = new BasicHttpResponse(line);
-		Mockito.when(this.modelFactory.updateModel(engine1, headers))
+		Mockito.when(this.assetClient.updateModel(engine1, headers))
 				.thenReturn((CloseableHttpResponse) response);
 
-		HttpResponse resp = this.modelFactory.updateModel(engine1, headers);
+		HttpResponse resp = this.assetClient.updateModel(engine1, headers);
 		assertNotNull(resp);
 		assertEquals(HttpStatus.SC_NO_CONTENT, resp.getStatusLine()
 				.getStatusCode());
@@ -234,7 +232,7 @@ public class ModelFactoryCFTest {
 				new Long(body.length()));
 		Mockito.when(this.response.getEntity()).thenReturn(entity);
 
-		List<JetEngineNoModel> engines = this.modelFactory.getModels(
+		List<JetEngineNoModel> engines = this.assetClient.getModels(
 				"/engine/ENG1.23", 
 				JetEngineNoModel.class, headers);
 		assertNotNull(engines);
@@ -276,7 +274,7 @@ public class ModelFactoryCFTest {
 				new Long(body.length()));
 		Mockito.when(this.response.getEntity()).thenReturn(entity);
 
-		List<JetEngineNoModel> engines = this.modelFactory.getModels("/engine",
+		List<JetEngineNoModel> engines = this.assetClient.getModels("/engine",
 				JetEngineNoModel.class, headers);
 		assertNotNull(engines);
 		assertTrue(engines.size() > 1);
@@ -300,12 +298,12 @@ public class ModelFactoryCFTest {
 				new BasicStatusLine(new ProtocolVersion("HTTP", 1, 1),
 						HttpStatus.SC_NO_CONTENT, "FINE!"));
 		Mockito.when(
-				this.modelFactory.deleteModel(Matchers.anyString(),
+				this.assetClient.deleteModel(Matchers.anyString(),
 						Matchers.anyListOf(Header.class))).thenReturn(this.response);
-		this.response = this.modelFactory.deleteModel("/engine/ENG1.23", headers);
+		this.response = this.assetClient.deleteModel("/engine/ENG1.23", headers);
 		assertEquals(HttpStatus.SC_NO_CONTENT, this.response.getStatusLine()
 				.getStatusCode());
-		this.response = this.modelFactory.deleteModel("/engine/ENG2.23", headers);
+		this.response = this.assetClient.deleteModel("/engine/ENG2.23", headers);
 		assertEquals(HttpStatus.SC_NO_CONTENT, this.response.getStatusLine()
 				.getStatusCode());
 	}

@@ -21,7 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.ge.predix.entity.model.Model;
 import com.ge.predix.entity.model.ModelList;
 import com.ge.predix.solsvc.bootstrap.ams.common.IAssetConfig;
-import com.ge.predix.solsvc.bootstrap.ams.factories.ModelFactory;
+import com.ge.predix.solsvc.bootstrap.ams.factories.AssetClientImpl;
 import com.ge.predix.solsvc.bootstrap.ams.factories.cf.testclasses.AviationModel;
 import com.ge.predix.solsvc.bootstrap.ams.factories.cf.testclasses.JetEngine;
 import com.ge.predix.solsvc.bootstrap.ams.factories.cf.testclasses.JetEngineNoModel;
@@ -50,8 +50,8 @@ public class TestMarshal {
 	private RestClient restClient;
 
 	@Autowired
-	@Qualifier("ModelFactory")
-	private ModelFactory modelFactory;
+	@Qualifier("AssetClient")
+	private AssetClientImpl assetClient;
 
 	@Autowired
 	private IAssetConfig assetRestConfig;
@@ -68,7 +68,7 @@ public class TestMarshal {
 		// make sure the correct RestClient is wired to serviceBase
 		// It gets changed by mock testing PredixAssetClient
 		MockitoAnnotations.initMocks(this);
-		this.modelFactory.setRestClient(this.restClient);
+		this.assetClient.setRestClient(this.restClient);
 	}
 
 	/**
