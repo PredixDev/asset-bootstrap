@@ -161,7 +161,6 @@ public interface AssetClient {
 	 * @param aConfig -
 	 * @param rConfig -
 	 * 
-	 * @author 212672942: moved this method from the old Interface IFixtureFactory
 	 */
 	public abstract void overrideAssetRestConfig(IAssetConfig aConfig,
 			IOauthRestConfig rConfig);

@@ -163,9 +163,7 @@ public class AssetClientCFIT extends BaseFactoryIT {
 	 */
 	@SuppressWarnings("nls")
 	public void testGetModel(List<Header> headers) {
-		//the first parameter to the below method is the filter, 
-		//second one is the class of the object which is a Model type
-		// and third one is the headers
+		
 		List<JetEngineNoModel> engines = this.assetClient.getModels(
 				"/engine/ENG1.23",
 				JetEngineNoModel.class, headers);
@@ -670,7 +668,7 @@ public class AssetClientCFIT extends BaseFactoryIT {
     /**
      * @author 212672942
      * @param 
-     * Get the object when a filter is passed. 
+     * 
      * Here we pass parentURI as the filter string and the value to be actual URI.
      * eg: parentURI = '/asset/getrb_2'
      * 
@@ -720,7 +718,7 @@ public class AssetClientCFIT extends BaseFactoryIT {
         
         //Remember, we get all groups in this URI and not just the ones we created using our junit tests. 
 		assertTrue(groupsList.size() >= 0); 
-		//we might get more than 2 groups we created-- again, due to the fact that some other applications
+		//we might get more than 2 groups we created--  due to the fact that some other applications
 		//might have added groups to this assetURI! So, be careful while testing the asserts.
 		
 		assertEquals("AirProducts SA_NV", groupsList.get(0).getName().toString());

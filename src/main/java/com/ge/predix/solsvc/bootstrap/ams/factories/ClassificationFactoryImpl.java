@@ -23,7 +23,7 @@ import com.ge.predix.solsvc.bootstrap.ams.dto.Classification;
  */
 @Component(value = "classificationFactory")
 @Scope("prototype")
-//@author 212672942. Removed FixtureFactory class and extending ModelFactoryImpl
+//@author 212672942.
 public class ClassificationFactoryImpl extends AssetClientImpl
         implements ClassificationFactory
 {

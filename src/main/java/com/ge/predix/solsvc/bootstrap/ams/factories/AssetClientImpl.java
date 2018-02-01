@@ -49,10 +49,6 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	@SuppressWarnings("unused")
 	private static Logger log = LoggerFactory.getLogger(AssetClientImpl.class);
 
-	/**
-	 * @author 212672942 Start adding variables from the old class FixtureFactory
-	 *         Also moved many methods from FixtureFactory to here
-	 */
 	@Autowired
 	protected RestMarshal restMarshal;
 
@@ -60,9 +56,6 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	@Qualifier("assetRestConfig")
 	protected IAssetConfig assetConfig;
 
-	/**
-	 * 
-	 */
 	@Autowired
 	protected RestClient restClient;
 
@@ -71,14 +64,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	 */
 	@Autowired
 	protected JsonMapper jsonMapper;
-
-	/**
-	 * End adding new variables from the old class FixtureFactory
-	 */
-
-	/**
-	 * -@212672942 - moved this method from Fixture
-	 */
+	
 	@PostConstruct
 	public void init() {
 		this.jsonMapper.addAllXmlSeeAlsoSubtypes(CustomModel.class);
@@ -358,11 +344,8 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	/**
      * @author 212672942
      * @param 
-     * Get the object when a filter is passed. 
-     * Here we pass parentURI as the filter string and the value to be actual URI.
-     * eg: parentURI = '/asset/getrb_2'
-     * 
-     * 
+     * If the value is of a URI, then this method expects the model too.
+     * Eg: /asset/getrb_2
      */
 	@SuppressWarnings({ "nls", "unchecked" })
     
@@ -781,14 +764,10 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see com.ge.predix.solsvc.bootstrap.ams.factories.IFixtureFactory#
 	 * overrideAssetRestConfig(com.ge.predix.solsvc.bootstrap.ams.common.
 	 * IAssetConfig, com.ge.predix.solsvc.restclient.config.IOauthRestConfig)
 	 *
-	 * @author 212672942: Moved this method to here from FixtureFactory class that
-	 * was implementing interface IFixtureFactory. We donot need those now as
-	 * AssetClient has all these methods now.
 	 */
 	@Override
 	public void overrideAssetRestConfig(IAssetConfig aConfig, IOauthRestConfig ouathConfig) {
