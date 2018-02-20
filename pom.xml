@@ -3,13 +3,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.ge.predix.solsvc</groupId>
 	<artifactId>asset-bootstrap-client</artifactId>
-	<version>2.0.35</version>
+	<version>2.0.42</version>
 	<packaging>jar</packaging>
 
 	<properties>
-		<predix-rest-client.version>2.3.8</predix-rest-client.version>
-		<ext-model.version>2.3.8</ext-model.version>
-		<ext-util.version>2.3.8</ext-util.version>
+		<predix-rest-client.version>2.3.43</predix-rest-client.version>
+		<ext-model.version>2.3.17</ext-model.version>
+		<ext-util.version>2.3.17</ext-util.version>
 
 		<spring.version>4.1.6.RELEASE</spring.version>
 		<jettison.version>1.1</jettison.version>
@@ -29,7 +29,7 @@
 		<maven-bundle-plugin.version>2.3.5</maven-bundle-plugin.version>
 		<maven-compiler-plugin.version>2.5.1</maven-compiler-plugin.version>
 		<maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
-
+		<maven-javadoc-plugin.version>2.10.4</maven-javadoc-plugin.version>
 	</properties>
 
 	<dependencies>
@@ -110,26 +110,26 @@
 	</dependencies>
 
 	<build>
-	
+
 		<plugins>
 			<plugin>
-			
+
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${maven-compiler-plugin.version}</version>
-				
+
 				<configuration>
-				<source>${java.version}</source>
+					<source>${java.version}</source>
 					<target>${java.version}</target>
 					<encoding>${project.build.sourceEncoding}</encoding>
 					<showDeprecation>true</showDeprecation>
 				</configuration>
 			</plugin>
 			<plugin>
-                		<groupId>org.codehaus.mojo</groupId>
-                		<artifactId>versions-maven-plugin</artifactId>
-                		<version>2.2</version>
-            		</plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>versions-maven-plugin</artifactId>
+				<version>2.2</version>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
@@ -175,6 +175,25 @@
 						</goals>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>${maven-javadoc-plugin.version}</version>
+				<configuration>
+					<excludePackageNames>com.ge.predix.solsvc.bootstrap.ams.dto</excludePackageNames>
+				</configuration>
+				 <executions>
+				<execution>
+				    <id>attach-javadocs</id>
+				    <goals>
+					<goal>jar</goal>
+				    </goals>
+				    <configuration> <!-- add this to disable checking -->
+					<additionalparam>-Xdoclint:none</additionalparam>
+				    </configuration>
+				</execution>
+			    </executions>
 			</plugin>
 		</plugins>
 		<pluginManagement>

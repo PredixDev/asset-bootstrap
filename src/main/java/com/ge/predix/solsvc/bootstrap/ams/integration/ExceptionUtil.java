@@ -21,7 +21,7 @@ public abstract class ExceptionUtil {
 	private static Logger log = LoggerFactory.getLogger(ExceptionUtil.class);
 	/**
 	 * @param message Message
-	 * @return  Map<String, String>
+	 * @return  Map
 	 */
 	@SuppressWarnings("unchecked")
 	public static Map<String, String> extractedErrors(Message message) {

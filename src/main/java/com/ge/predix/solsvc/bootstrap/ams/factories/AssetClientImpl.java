@@ -1,13 +1,10 @@
 package com.ge.predix.solsvc.bootstrap.ams.factories;
 
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.PostConstruct;
 
@@ -26,12 +23,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import com.ge.predix.entity.asset.Asset;
 import com.ge.predix.entity.model.Model;
 import com.ge.predix.solsvc.bootstrap.ams.common.IAssetConfig;
 import com.ge.predix.solsvc.bootstrap.ams.dto.CustomModel;
-import com.ge.predix.solsvc.bootstrap.ams.dto.Group;
-import com.ge.predix.solsvc.bootstrap.ams.dto.Tag;
 import com.ge.predix.solsvc.bootstrap.ams.integration.HttpResponseException;
 import com.ge.predix.solsvc.bootstrap.ams.integration.RestConstants;
 import com.ge.predix.solsvc.ext.util.JsonMapper;
@@ -46,16 +40,24 @@ import com.ge.predix.solsvc.restclient.impl.RestClient;
 @Scope("prototype")
 public class AssetClientImpl implements AssetClient, RestConstants {
 
-	@SuppressWarnings("unused")
 	private static Logger log = LoggerFactory.getLogger(AssetClientImpl.class);
 
+	/**
+	 * 
+	 */
 	@Autowired
 	protected RestMarshal restMarshal;
 
+	/**
+	 * 
+	 */
 	@Autowired
 	@Qualifier("assetRestConfig")
 	protected IAssetConfig assetConfig;
 
+	/**
+	 * 
+	 */
 	@Autowired
 	protected RestClient restClient;
 
@@ -64,7 +66,10 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	 */
 	@Autowired
 	protected JsonMapper jsonMapper;
-	
+
+	/**
+	 * -
+	 */
 	@PostConstruct
 	public void init() {
 		this.jsonMapper.addAllXmlSeeAlsoSubtypes(CustomModel.class);
@@ -75,6 +80,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	 * @param restClient
 	 *            the restClient to set
 	 */
+	@Override
 	public void setRestClient(RestClient restClient) {
 		this.restClient = restClient;
 	}
@@ -111,8 +117,8 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.ge.predix.solsvc.bootstrap.ams.factories.AssetClient#createFromJson(java
-	 * .lang.String, java.util.List)
+	 * com.ge.predix.solsvc.bootstrap.ams.factories.AssetClient#createFromJson(
+	 * java .lang.String, java.util.List)
 	 */
 	@Override
 	public CloseableHttpResponse createFromJson(String resource, String json, List<Header> headers) {
@@ -198,9 +204,6 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 		return response;
 	}
 
-	
-
-
 	@SuppressWarnings({ "nls", "rawtypes" })
 	@Override
 	public List<String> getModels(String filter, List<Header> headers) {
@@ -224,7 +227,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 				}
 				return result;
 			} catch (ParseException | IOException e) {
-				throw new RuntimeException("Failed to unmarshall response. ", e);
+				throw new RuntimeException("Failed to unmarshall response. ", e); //$NON-NLS-1$
 			}
 		} finally {
 			if (response != null)
@@ -258,7 +261,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 			}
 			try {
 				String body = EntityUtils.toString(response.getEntity());
-				if (body.equals("[]"))
+				if (body.equals("[]")) //$NON-NLS-1$
 					return null;
 				List<Object> models = new ArrayList<Object>();
 				List<T> mappedObject2 = this.jsonMapper.fromJsonArray(body, complexType);
@@ -275,7 +278,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 				}
 				return (List<T>) models;
 			} catch (ParseException | IOException e) {
-				throw new RuntimeException("Failed to unmarshall response. ", e);
+				throw new RuntimeException("Failed to unmarshall response. ", e); //$NON-NLS-1$
 			}
 		} finally {
 			if (response != null)
@@ -294,7 +297,8 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	 * com.ge.predix.solsvc.bootstrap.ams.factories.AssetClient#getModels(java.
 	 * lang.String, java.lang.String, java.util.List)
 	 * 
-	 * This can be now renamed to getModelsByFilter as we are generalizing this to all domain objects now.
+	 * This can be now renamed to getModelsByFilter as we are generalizing this
+	 * to all domain objects now.
 	 * 
 	 */
 	@SuppressWarnings({ "nls", "unchecked" })
@@ -312,7 +316,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 			}
 			try {
 				String body = EntityUtils.toString(response.getEntity());
-				if (body.equals("[]"))
+				if (body.equals("[]")) //$NON-NLS-1$
 					return null;
 				List<Object> models = new ArrayList<Object>();
 				List<Object> mappedObject2 = this.jsonMapper.fromJsonArray(body, complexType);
@@ -329,7 +333,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 				}
 				return models;
 			} catch (ParseException | IOException e) {
-				throw new RuntimeException("Failed to unmarshall response. ", e);
+				throw new RuntimeException("Failed to unmarshall response. ", e); //$NON-NLS-1$
 			}
 		} finally {
 			if (response != null)
@@ -340,28 +344,20 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 				}
 		}
 	}
-	
-	/**
-     * @author 212672942
-     * @param 
-     * If the value is of a URI, then this method expects the model too.
-     * Eg: /asset/getrb_2
-     */
-	@SuppressWarnings({ "nls", "unchecked" })
-    
-    public <T> List<T> getModelsByFilter(Class<T> complexType, String pathParam, String filter, 
-    		String value, List<Header> headers)
-    {
-    		
-        CloseableHttpResponse response = null;
-        log.debug("From getModels byFilter method: " );;
-        log.debug("Complex type value is : " + complexType);;
-        log.debug("filter value is : " + filter);;
-        log.debug("value value is : " + value);;
-        
+
+	@Override
+	public <T> List<T> getModelsByFilter(Class<T> complexType, String pathParam, String filter, String value,
+			List<Header> headers) {
+
+		CloseableHttpResponse response = null;
+		log.debug("From getModels byFilter method: "); //$NON-NLS-1$
+		log.debug("Complex type value is : " + complexType); //$NON-NLS-1$
+		log.debug("filter value is : " + filter); //$NON-NLS-1$
+		log.debug("value value is : " + value); //$NON-NLS-1$
+
 		try {
 			response = get(complexType, pathParam, filter, value, headers);
-			
+
 			if (response == null || response.getStatusLine() == null
 					|| (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK
 							&& response.getStatusLine().getStatusCode() != HttpStatus.SC_NOT_FOUND
@@ -371,7 +367,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 			}
 			try {
 				String body = EntityUtils.toString(response.getEntity());
-				if (body.equals("[]"))
+				if (body.equals("[]")) //$NON-NLS-1$
 					return null;
 				List<Object> models = new ArrayList<Object>();
 				List<T> mappedObject2 = this.jsonMapper.fromJsonArray(body, complexType);
@@ -388,7 +384,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 				}
 				return (List<T>) models;
 			} catch (ParseException | IOException e) {
-				throw new RuntimeException("Failed to unmarshall response. ", e);
+				throw new RuntimeException("Failed to unmarshall response. ", e); //$NON-NLS-1$
 			}
 		} finally {
 			if (response != null)
@@ -398,9 +394,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 					throw new RuntimeException(e.getMessage(), e);
 				}
 		}
-    }
-    
-    
+	}
 
 	@SuppressWarnings("nls")
 	@Override
@@ -408,8 +402,8 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 		CloseableHttpResponse response = null;
 		try {
 			String assetUri = this.assetConfig.getAssetUri();
-			if (!assetUri.endsWith("/") && !modelUri.startsWith("/"))
-				assetUri += "/" + modelUri;
+			if (!assetUri.endsWith("/") && !modelUri.startsWith("/")) //$NON-NLS-1$ //$NON-NLS-2$
+				assetUri += "/" + modelUri; //$NON-NLS-1$
 			else
 				assetUri += modelUri;
 			response = delete(assetUri, headers);
@@ -439,17 +433,20 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	 *            -
 	 * @param httpResponse
 	 *            -
-	 * @return -
+	 * @param <T>
+	 *            -
+	 * @return T -
 	 * @throws IOException
 	 *             -
-	 * @throws ParseException-
+	 * @throws ParseException
+	 *             -
 	 */
 	@SuppressWarnings("nls")
 	protected <T> List<T> getObjectFromJson(Class<T> clazz, HttpResponse httpResponse)
 			throws ParseException, IOException {
 		org.apache.http.HttpEntity responseEntity = httpResponse.getEntity();
 		String json = EntityUtils.toString(responseEntity);
-		log.debug("getObjectFromJson clazz=" + clazz + " response=" + json);
+		log.debug("getObjectFromJson clazz=" + clazz + " response=" + json); //$NON-NLS-1$ //$NON-NLS-2$
 
 		return this.jsonMapper.fromJsonArray(json, clazz);
 	}
@@ -459,7 +456,9 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	 *            -
 	 * @param headers
 	 *            -
-	 * @return -
+	 * @param <T>
+	 *            -
+	 * @return T -
 	 */
 	public <T> CloseableHttpResponse create(T object, List<Header> headers) {
 		if (object == null)
@@ -470,14 +469,17 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	}
 
 	/**
-	 * This is the original method for Classification, Groups etc TODO: delete this
-	 * and the "map" (see this.config.getPath()) in favor of createCustomModels
+	 * This is the original method for Classification, Groups etc TODO: delete
+	 * this and the "map" (see this.config.getPath()) in favor of
+	 * createCustomModels
 	 * 
 	 * @param objects
 	 *            -
 	 * @param headers
 	 *            -
-	 * @return -
+	 * @param <T>
+	 *            -
+	 * @return T -
 	 */
 	@SuppressWarnings("nls")
 	public <T> CloseableHttpResponse create(List<T> objects, List<Header> headers) {
@@ -486,7 +488,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 		List<Header> localheaders = ensureDefaultHeadersArePresent(headers);
 		String url = this.restMarshal.getPath(objects.get(0).getClass());
 		String body = this.jsonMapper.toJson(objects);
-		log.debug("url=" + url + " create json=" + body);
+		log.debug("url=" + url + " create json=" + body); //$NON-NLS-1$ //$NON-NLS-2$
 		CloseableHttpResponse response = this.restClient.post(url, body, localheaders,
 				this.assetConfig.getAssetConnectionTimeout(), this.assetConfig.getAssetSocketTimeout());
 		return response;
@@ -497,7 +499,9 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	 *            -
 	 * @param headers
 	 *            -
-	 * @return -
+	 * @param <T>
+	 *            -
+	 * @return T -
 	 */
 	@SuppressWarnings({ "nls" })
 	public <T> CloseableHttpResponse createCustomModels(List<T> objects, List<Header> headers) {
@@ -506,7 +510,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 		List<Header> localheaders = ensureDefaultHeadersArePresent(headers);
 		String url = this.restMarshal.createCustomModelUrlForPost(objects.get(0));
 		String json = this.jsonMapper.toJson(objects);
-		log.debug("url=" + url + " create json=" + json);
+		log.debug("url=" + url + " create json=" + json); //$NON-NLS-1$ //$NON-NLS-2$
 		CloseableHttpResponse response = this.restClient.post(url, json, localheaders,
 				this.assetConfig.getAssetConnectionTimeout(), this.assetConfig.getAssetSocketTimeout());
 		return response;
@@ -519,7 +523,9 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	 *            body
 	 * @param headers
 	 *            -
-	 * @return HttpResponse
+	 * @param <T>
+	 *            -
+	 * @return T -
 	 */
 	public <T> CloseableHttpResponse createCustomModels(List<T> objects, String jsonString, List<Header> headers) {
 		List<Header> localheaders = ensureDefaultHeadersArePresent(headers);
@@ -534,7 +540,10 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	 *            -
 	 * @param headers
 	 *            -
-	 * @return -
+	 * 
+	 * @param <T>
+	 *            -
+	 * @return T -
 	 */
 	@SuppressWarnings("nls")
 	public <T> CloseableHttpResponse updateCustomModel(T object, List<Header> headers) {
@@ -545,7 +554,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 		String url = this.restMarshal.createCustomModelUrlForPut(object);
 		List<Header> localheaders = ensureDefaultHeadersArePresent(headers);
 		String json = this.jsonMapper.toJson(Arrays.asList(object));
-		log.debug("url=" + url + " create json=" + json);
+		log.debug("url=" + url + " create json=" + json); //$NON-NLS-1$ //$NON-NLS-2$
 		CloseableHttpResponse response = this.restClient.put(url, json, localheaders,
 				this.assetConfig.getAssetConnectionTimeout(), this.assetConfig.getAssetSocketTimeout());
 
@@ -559,7 +568,9 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	 *            -
 	 * @param headers
 	 *            -
-	 * @return -
+	 * @param <T>
+	 *            -
+	 * @return T
 	 */
 	@SuppressWarnings("nls")
 	public <T> CloseableHttpResponse updateCustomModel(T object, String complexType, List<Header> headers) {
@@ -578,7 +589,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 			json = this.jsonMapper.toJson(Arrays.asList(object));
 		}
 		List<Header> localheaders = ensureDefaultHeadersArePresent(headers);
-		log.debug("UUUurl=" + url + " create json=" + json);
+		log.debug("UUUurl=" + url + " create json=" + json); //$NON-NLS-1$ //$NON-NLS-2$
 		CloseableHttpResponse response = this.restClient.put(url, json, localheaders,
 				this.assetConfig.getAssetConnectionTimeout(), this.assetConfig.getAssetSocketTimeout());
 
@@ -625,7 +636,9 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	 *            T
 	 * @param headers
 	 *            -
-	 * @return <T>
+	 * @param <T>
+	 *            -
+	 * @return T
 	 */
 	public <T> HttpResponse update(T object, List<Header> headers) {
 		if (object == null)
@@ -638,7 +651,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	/**
 	 * 
 	 * @param clazz
-	 *            Class<?>
+	 *            -
 	 * @param headers
 	 *            -
 	 * @return HttpResponse
@@ -653,7 +666,8 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	/**
 	 * 
 	 * @param clazz
-	 *            Class<?>
+	 *            -
+	 * 
 	 * @param pathParam
 	 *            String
 	 * @param headers
@@ -667,25 +681,25 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 		if (pathParam != null)
 			url += "/" + pathParam; //$NON-NLS-1$
 		if (!this.restClient.hasToken(headers))
-			throw new UnsupportedOperationException("calls to Predix Asset require an Authorization token header");
+			throw new UnsupportedOperationException("calls to Predix Asset require an Authorization token header"); //$NON-NLS-1$
 		if (!this.restClient.hasZoneId(headers))
-			throw new UnsupportedOperationException("calls to Predix Asset require an Predix-Zone-Id header");
-		log.debug("Calling URL From Asset BootStrap -->" + url);
+			throw new UnsupportedOperationException("calls to Predix Asset require an Predix-Zone-Id header"); //$NON-NLS-1$
+		log.debug("Calling URL From Asset BootStrap -->" + url); //$NON-NLS-1$
 		return this.restClient.get(url, headers, this.assetConfig.getAssetConnectionTimeout(),
 				this.assetConfig.getAssetSocketTimeout());
 	}
 
-	/*
-	 * @param clazz -
-	 * 
-	 * @param pathParam -
-	 * 
-	 * @param filter -
-	 * 
-	 * @param value -
-	 * 
-	 * @param headers -
-	 * 
+	/**
+	 * @param clazz
+	 *            -
+	 * @param pathParam
+	 *            -
+	 * @param filter
+	 *            -
+	 * @param value
+	 *            -
+	 * @param headers
+	 *            -
 	 * @return -
 	 */
 	public CloseableHttpResponse get(Class<?> clazz, String pathParam, String filter, String value,
@@ -703,8 +717,6 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	/**
 	 * @param filterUri
 	 *            -
-	 * @param model
-	 *            -
 	 * @param headers
 	 *            -
 	 * @return -
@@ -713,12 +725,12 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	public CloseableHttpResponse getCustomModels(String filterUri, List<Header> headers) {
 		List<Header> localHeaders = ensureDefaultHeadersArePresent(headers);
 		if (!this.restClient.hasToken(headers))
-			throw new UnsupportedOperationException("calls to Predix Asset require an Authorization token header");
+			throw new UnsupportedOperationException("calls to Predix Asset require an Authorization token header"); //$NON-NLS-1$
 		if (!this.restClient.hasZoneId(headers))
-			throw new UnsupportedOperationException("calls to Predix Asset require an Predix-Zone-Id header");
+			throw new UnsupportedOperationException("calls to Predix Asset require an Predix-Zone-Id header"); //$NON-NLS-1$
 		String assetUri = this.assetConfig.getAssetUri();
-		if (!assetUri.endsWith("/") && filterUri != null && !filterUri.startsWith("/"))
-			assetUri += "/" + filterUri;
+		if (!assetUri.endsWith("/") && filterUri != null && !filterUri.startsWith("/")) //$NON-NLS-1$ //$NON-NLS-2$
+			assetUri += "/" + filterUri; //$NON-NLS-1$
 		else if (filterUri != null)
 			assetUri += filterUri;
 		return this.restClient.get(assetUri, localHeaders, this.assetConfig.getAssetConnectionTimeout(),
@@ -728,7 +740,8 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	/**
 	 * 
 	 * @param clazz
-	 *            Class<?>
+	 *            -
+	 * 
 	 * @param pathParam
 	 *            pathParam
 	 * @param headers
@@ -764,6 +777,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see com.ge.predix.solsvc.bootstrap.ams.factories.IFixtureFactory#
 	 * overrideAssetRestConfig(com.ge.predix.solsvc.bootstrap.ams.common.
 	 * IAssetConfig, com.ge.predix.solsvc.restclient.config.IOauthRestConfig)
@@ -777,6 +791,8 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	}
 
 	/**
+	 * @param assetUri
+	 *            -
 	 * @param object
 	 *            -
 	 * @param headers
@@ -789,18 +805,15 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 		HttpEntity entity = response.getEntity();
 		String responseBody = null;
 		try {
-			responseBody = EntityUtils.toString(entity, "UTF-8");
+			responseBody = EntityUtils.toString(entity, "UTF-8"); //$NON-NLS-1$
 		} catch (ParseException e) {
-			log.error("Unable to parse HttpResponse Body, swallowing error since we are throwing a few lines down", e);
+			log.error("Unable to parse HttpResponse Body, swallowing error since we are throwing a few lines down", e); //$NON-NLS-1$
 		} catch (IOException e) {
-			log.error("Unable to parse HttpResponse Body, swallowing error since we are throwing a few lines down", e);
+			log.error("Unable to parse HttpResponse Body, swallowing error since we are throwing a few lines down", e); //$NON-NLS-1$
 		}
-		throw new HttpResponseException(
-				("Unable to call assetUrl" + assetUri + ".  " + response == null ? "No HttpResponse"
-						: response.toString()) + " Response Body=" + responseBody + " Entity=" + object + " Headers="
-						+ headers,
-				response);
+		throw new HttpResponseException(("Unable to call assetUrl" + assetUri + ".  " + response == null //$NON-NLS-1$ //$NON-NLS-2$
+				? "No HttpResponse" : response.toString()) + " Response Body=" + responseBody + " Entity=" + object //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+				+ " Headers=" + headers, response); //$NON-NLS-1$
 	}
-
 
 }
