@@ -59,7 +59,7 @@ public class AssetConfig implements EnvironmentAware, IAssetConfig {
 	@Override
 	@SuppressWarnings("nls")
 	public String getAssetUri() {
-		String assetUri = null;
+		String localAssetUri = null;
 		if (this.vcapRestUri == null) {
 			// mvp2 Asset does not need any localRestBaseResource
 			
@@ -68,13 +68,12 @@ public class AssetConfig implements EnvironmentAware, IAssetConfig {
 //			if (StringUtils.isEmpty(this.assetPort) || this.assetPort.equals("80"))
 //				assetUri = this.restProtocol + "://" + this.assetUri;
 //			else
-				assetUri = this.restProtocol + "://" + this.assetUri; //+ ":" + this.assetPort;
+			localAssetUri = this.restProtocol + "://" + this.assetUri; //+ ":" + this.assetPort;
 			
 		} else {
-			assetUri = this.vcapRestUri;
+			localAssetUri = this.vcapRestUri;
 		}
-		log.debug("Asset Url is " + assetUri);
-		return assetUri;
+		return localAssetUri;
 	}
 
 	/* (non-Javadoc)
