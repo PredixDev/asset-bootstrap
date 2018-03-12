@@ -6,7 +6,7 @@
 </a>
 
 Asset Bootstrap SDK
-================================
+=================================
 
 Welcome to Asset Bootstrap SDK. This is a SDK in Java for calling the Predix Asset API to perform CRUD operation on [Asset Domain Objects](https://www.predix.io/docs/#zChUPu1U). It has built in mechanism to perform authenticated calls to Asset API. It can be used as a dependency to other java back-end applications for performing CRUD operations on Asset Domain Objects.
 For further information please view the [Asset Tutorial](https://www.predix.io/resources/tutorials/journey.html#1709). 
