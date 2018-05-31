@@ -55,6 +55,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	@Qualifier("assetRestConfig")
 	protected IAssetConfig assetConfig;
 
+
 	/**
 	 * 
 	 */
@@ -74,6 +75,14 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	public void init() {
 		this.jsonMapper.addAllXmlSeeAlsoSubtypes(CustomModel.class);
 		this.restMarshal.setUpRestMarshal(this.assetConfig);
+	}
+	
+	/**
+	 * @return the assetConfig
+	 */
+	@Override
+	public IAssetConfig getAssetConfig() {
+		return this.assetConfig;
 	}
 
 	/**
@@ -112,7 +121,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 		}
 		return response;
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -124,8 +133,9 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	public CloseableHttpResponse createFromJson(String resource, String json, List<Header> headers) {
 		CloseableHttpResponse response = null;
 		try {
+			List<Header> localheaders = ensureDefaultHeadersArePresent(headers);
 			String url = this.restMarshal.getAssetUri(resource);
-			response = this.restClient.post(url, json, headers, this.assetConfig.getAssetConnectionTimeout(),
+			response = this.restClient.post(url, json, localheaders, this.assetConfig.getAssetConnectionTimeout(),
 					this.assetConfig.getAssetSocketTimeout());
 			boolean expected = (response == null || response.getStatusLine() == null
 					|| response.getStatusLine().getStatusCode() != HttpStatus.SC_NO_CONTENT) ? false : true;
@@ -530,7 +540,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	public <T> CloseableHttpResponse createCustomModels(List<T> objects, String jsonString, List<Header> headers) {
 		List<Header> localheaders = ensureDefaultHeadersArePresent(headers);
 		String url = this.restMarshal.createCustomModelUrlForPost(objects.get(0));
-		CloseableHttpResponse response = this.restClient.post(url, jsonString, headers,
+		CloseableHttpResponse response = this.restClient.post(url, jsonString, localheaders,
 				this.assetConfig.getAssetConnectionTimeout(), this.assetConfig.getAssetSocketTimeout());
 		return response;
 	}
@@ -623,9 +633,9 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	 * @return HttpResponse
 	 */
 	public CloseableHttpResponse create(Class<?> clazz, String uriSegment, String jsonString, List<Header> headers) {
-		// config.setupRestMarshal(context);
+		List<Header> localheaders = ensureDefaultHeadersArePresent(headers);
 		String url = this.restMarshal.getPath(clazz) + uriSegment;
-		CloseableHttpResponse response = this.restClient.post(url, jsonString, headers,
+		CloseableHttpResponse response = this.restClient.post(url, jsonString, localheaders,
 				this.assetConfig.getAssetConnectionTimeout(), this.assetConfig.getAssetSocketTimeout());
 		return response;
 	}

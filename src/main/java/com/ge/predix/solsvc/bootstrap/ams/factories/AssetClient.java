@@ -204,4 +204,9 @@ public interface AssetClient {
 	 */
 	public abstract void overrideAssetRestConfig(IAssetConfig aConfig, IOauthRestConfig rConfig);
 
+	/**
+	 * @return -
+	 */
+	IAssetConfig getAssetConfig();
+
 }
