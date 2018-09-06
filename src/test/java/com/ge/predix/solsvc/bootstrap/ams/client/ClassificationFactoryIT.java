@@ -1,4 +1,4 @@
-package com.ge.predix.solsvc.bootstrap.ams.factories.cf;
+package com.ge.predix.solsvc.bootstrap.ams.client;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -20,10 +20,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.ge.predix.solsvc.bootstrap.ams.client.ClassificationFactory;
 import com.ge.predix.solsvc.bootstrap.ams.common.BaseFactoryIT;
 import com.ge.predix.solsvc.bootstrap.ams.dto.Attribute;
 import com.ge.predix.solsvc.bootstrap.ams.dto.Classification;
-import com.ge.predix.solsvc.bootstrap.ams.factories.ClassificationFactory;
 
 /**
  * 
@@ -32,9 +32,7 @@ import com.ge.predix.solsvc.bootstrap.ams.factories.ClassificationFactory;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-		"classpath*:META-INF/spring/ext-util-scan-context.xml",
 		"classpath*:META-INF/spring/asset-bootstrap-client-scan-context.xml",
-		"classpath*:META-INF/spring/predix-rest-client-scan-context.xml",
 		"classpath*:META-INF/spring/predix-rest-client-sb-properties-context.xml" })
 @Component
 public class ClassificationFactoryIT extends BaseFactoryIT {
@@ -60,7 +58,7 @@ public class ClassificationFactoryIT extends BaseFactoryIT {
 	@Test
 	public void testClassificationCRUDOperations() {
 		List<Header> headers = this.restClient.getSecureTokenForClientId();
-		this.restClient.addZoneToHeaders(headers,
+		this.restClient.addZoneIdToHeaders(headers,
 				this.assetRestConfig.getZoneId());
 
 		testDeleteClassifications(headers);

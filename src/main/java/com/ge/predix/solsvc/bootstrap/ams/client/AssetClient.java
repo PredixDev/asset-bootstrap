@@ -1,4 +1,4 @@
-package com.ge.predix.solsvc.bootstrap.ams.factories;
+package com.ge.predix.solsvc.bootstrap.ams.client;
 
 import java.util.List;
 
@@ -188,13 +188,25 @@ public interface AssetClient {
 	 */
 	public void setRestClient(RestClient restClient);
 
+    /**
+     * @return -
+     */
+    List<Header> getAssetHeaders();
+
 	/**
 	 * @param headers
 	 *            -
 	 * @return -
 	 */
-	public List<Header> setZoneIdInHeaders(List<Header> headers);
+	public List<Header> addZoneIdToHeaders(List<Header> headers);
 
+    /**
+     * @param headers -
+     * @param zoneId - your zoneId
+     * @return -
+     */
+    List<Header> addZoneIdToHeaders(List<Header> headers, String zoneId);
+    
 	/**
 	 * @param aConfig
 	 *            -
@@ -202,11 +214,35 @@ public interface AssetClient {
 	 *            -
 	 * 
 	 */
-	public abstract void overrideAssetRestConfig(IAssetConfig aConfig, IOauthRestConfig rConfig);
+    /**
+     * @param headers -
+     * @return -
+     */
+    public List<Header> addSecureTokenToHeaders(List<Header> headers);
+    
+    /**
+     * @param headers - 
+     * @param token - your token
+     * @return -
+     */
+    List<Header> addSecureTokenToHeaders(List<Header> headers, String token);
+    
+    /**
+     * @param aConfig -
+     * @param rConfig -
+     */
+    public abstract void overrideAssetRestConfig(IAssetConfig aConfig, IOauthRestConfig rConfig);
 
 	/**
 	 * @return -
 	 */
 	IAssetConfig getAssetConfig();
+
+
+
+
+
+
+
 
 }

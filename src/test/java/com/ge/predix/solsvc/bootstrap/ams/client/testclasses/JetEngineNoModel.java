@@ -1,4 +1,4 @@
-package com.ge.predix.solsvc.bootstrap.ams.factories.cf.testclasses;
+package com.ge.predix.solsvc.bootstrap.ams.client.testclasses;
 
 
 /**

@@ -1,4 +1,4 @@
-package com.ge.predix.solsvc.bootstrap.ams.factories.cf;
+package com.ge.predix.solsvc.bootstrap.ams.client;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -32,16 +32,16 @@ import com.ge.predix.entity.asset.Asset;
 import com.ge.predix.entity.asset.AssetTag;
 import com.ge.predix.entity.datasource.TimeseriesDatasource;
 import com.ge.predix.entity.util.map.Map;
+import com.ge.predix.solsvc.bootstrap.ams.client.AssetClientImpl;
+import com.ge.predix.solsvc.bootstrap.ams.client.ClassificationFactory;
+import com.ge.predix.solsvc.bootstrap.ams.client.testclasses.JetEngine;
+import com.ge.predix.solsvc.bootstrap.ams.client.testclasses.JetEngineNoModel;
+import com.ge.predix.solsvc.bootstrap.ams.client.testclasses.JetEnginePart;
 import com.ge.predix.solsvc.bootstrap.ams.common.BaseFactoryIT;
 import com.ge.predix.solsvc.bootstrap.ams.dto.Attribute;
 import com.ge.predix.solsvc.bootstrap.ams.dto.Classification;
 import com.ge.predix.solsvc.bootstrap.ams.dto.Group;
 import com.ge.predix.solsvc.bootstrap.ams.dto.Tag;
-import com.ge.predix.solsvc.bootstrap.ams.factories.ClassificationFactory;
-import com.ge.predix.solsvc.bootstrap.ams.factories.AssetClientImpl;
-import com.ge.predix.solsvc.bootstrap.ams.factories.cf.testclasses.JetEngine;
-import com.ge.predix.solsvc.bootstrap.ams.factories.cf.testclasses.JetEngineNoModel;
-import com.ge.predix.solsvc.bootstrap.ams.factories.cf.testclasses.JetEnginePart;
 import com.ge.predix.solsvc.ext.util.JsonMapper;
 
 /**
@@ -50,9 +50,7 @@ import com.ge.predix.solsvc.ext.util.JsonMapper;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-		"classpath*:META-INF/spring/ext-util-scan-context.xml",
 		"classpath*:META-INF/spring/asset-bootstrap-client-scan-context.xml",
-		"classpath*:META-INF/spring/predix-rest-client-scan-context.xml",
 		"classpath*:META-INF/spring/predix-rest-client-sb-properties-context.xml" })
 @Component
 public class AssetClientCFIT extends BaseFactoryIT {
@@ -87,7 +85,7 @@ public class AssetClientCFIT extends BaseFactoryIT {
 	@Test
 	public void testModelCRUD() throws JSONException {
 		List<Header> headers = this.restClient.getSecureTokenForClientId();
-		this.restClient.addZoneToHeaders(headers,
+		this.restClient.addZoneIdToHeaders(headers,
 				this.assetRestConfig.getZoneId());
 		
 		testDeleteModel(headers);
@@ -281,7 +279,7 @@ public class AssetClientCFIT extends BaseFactoryIT {
     @SuppressWarnings("nls")
     public void testCreateJsonAsset() throws JSONException {
         List<Header> headers = this.restClient.getSecureTokenForClientId();
-        this.restClient.addZoneToHeaders(headers,
+        this.restClient.addZoneIdToHeaders(headers,
                 this.assetRestConfig.getZoneId());
         headers.add(new BasicHeader("Content-type", "application/json"));
         String resource="/my-test-asset-json";
@@ -309,7 +307,7 @@ public class AssetClientCFIT extends BaseFactoryIT {
     @SuppressWarnings("nls")
     public void testCreateJsonAssetString() throws JSONException {
         List<Header> headers = this.restClient.getSecureTokenForClientId();
-        this.restClient.addZoneToHeaders(headers,
+        this.restClient.addZoneIdToHeaders(headers,
                 this.assetRestConfig.getZoneId());
         headers.add(new BasicHeader("Content-type", "application/json"));
         String resource="/tag";

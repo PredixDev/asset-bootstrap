@@ -8,7 +8,7 @@
  * under which the software has been supplied.
  */
  
-package com.ge.predix.solsvc.bootstrap.ams.factories;
+package com.ge.predix.solsvc.bootstrap.ams.client;
 
 import java.util.LinkedHashMap;
 

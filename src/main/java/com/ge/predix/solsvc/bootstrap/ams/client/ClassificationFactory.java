@@ -1,4 +1,4 @@
-package com.ge.predix.solsvc.bootstrap.ams.factories;
+package com.ge.predix.solsvc.bootstrap.ams.client;
 
 import java.util.List;
 

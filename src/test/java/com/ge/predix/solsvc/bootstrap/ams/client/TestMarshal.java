@@ -1,4 +1,4 @@
-package com.ge.predix.solsvc.bootstrap.ams.factories.cf;
+package com.ge.predix.solsvc.bootstrap.ams.client;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +20,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.ge.predix.entity.model.Model;
 import com.ge.predix.entity.model.ModelList;
+import com.ge.predix.solsvc.bootstrap.ams.client.AssetClientImpl;
+import com.ge.predix.solsvc.bootstrap.ams.client.testclasses.AviationModel;
+import com.ge.predix.solsvc.bootstrap.ams.client.testclasses.JetEngine;
+import com.ge.predix.solsvc.bootstrap.ams.client.testclasses.JetEngineNoModel;
+import com.ge.predix.solsvc.bootstrap.ams.client.testclasses.Pump;
 import com.ge.predix.solsvc.bootstrap.ams.common.IAssetConfig;
-import com.ge.predix.solsvc.bootstrap.ams.factories.AssetClientImpl;
-import com.ge.predix.solsvc.bootstrap.ams.factories.cf.testclasses.AviationModel;
-import com.ge.predix.solsvc.bootstrap.ams.factories.cf.testclasses.JetEngine;
-import com.ge.predix.solsvc.bootstrap.ams.factories.cf.testclasses.JetEngineNoModel;
-import com.ge.predix.solsvc.bootstrap.ams.factories.cf.testclasses.Pump;
 import com.ge.predix.solsvc.ext.util.JsonMapper;
 import com.ge.predix.solsvc.restclient.impl.RestClient;
 
@@ -35,9 +35,7 @@ import com.ge.predix.solsvc.restclient.impl.RestClient;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
-		"classpath*:META-INF/spring/ext-util-scan-context.xml",
 		"classpath*:META-INF/spring/asset-bootstrap-client-scan-context.xml",
-		"classpath*:META-INF/spring/predix-rest-client-scan-context.xml",
 		"classpath*:META-INF/spring/predix-rest-client-sb-properties-context.xml" })
 @ActiveProfiles(profiles = "local")
 @Component

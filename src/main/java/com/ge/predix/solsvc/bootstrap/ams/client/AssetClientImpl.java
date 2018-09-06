@@ -1,4 +1,4 @@
-package com.ge.predix.solsvc.bootstrap.ams.factories;
+package com.ge.predix.solsvc.bootstrap.ams.client;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -37,6 +38,9 @@ import com.ge.predix.solsvc.restclient.impl.RestClient;
  * @author 212438846
  */
 @Component(value = "AssetClient")
+@ImportResource({
+	"classpath*:META-INF/spring/ext-util-scan-context.xml",
+	"classpath*:META-INF/spring/predix-rest-client-scan-context.xml"})
 @Scope("prototype")
 public class AssetClientImpl implements AssetClient, RestConstants {
 
@@ -126,7 +130,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.ge.predix.solsvc.bootstrap.ams.factories.AssetClient#createFromJson(
+	 * com.ge.predix.solsvc.bootstrap.ams.client.AssetClient#createFromJson(
 	 * java .lang.String, java.util.List)
 	 */
 	@Override
@@ -214,7 +218,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 		return response;
 	}
 
-	@SuppressWarnings({ "nls", "rawtypes" })
+	@SuppressWarnings({ "rawtypes", "nls" })
 	@Override
 	public List<String> getModels(String filter, List<Header> headers) {
 		CloseableHttpResponse response = null;
@@ -237,7 +241,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 				}
 				return result;
 			} catch (ParseException | IOException e) {
-				throw new RuntimeException("Failed to unmarshall response. ", e); //$NON-NLS-1$
+				throw new RuntimeException("Failed to unmarshall response. ", e); 
 			}
 		} finally {
 			if (response != null)
@@ -253,10 +257,10 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.ge.predix.solsvc.bootstrap.ams.factories.AssetClient#getModels(java.
+	 * com.ge.predix.solsvc.bootstrap.ams.client.AssetClient#getModels(java.
 	 * lang.String, java.lang.String, java.util.List)
 	 */
-	@SuppressWarnings({ "nls", "unchecked" })
+	@SuppressWarnings({ "unchecked", "nls" })
 	@Override
 	public <T> List<T> getModels(String filter, Class<T> complexType, List<Header> headers) {
 		CloseableHttpResponse response = null;
@@ -271,7 +275,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 			}
 			try {
 				String body = EntityUtils.toString(response.getEntity());
-				if (body.equals("[]")) //$NON-NLS-1$
+				if (body.equals("[]")) 
 					return null;
 				List<Object> models = new ArrayList<Object>();
 				List<T> mappedObject2 = this.jsonMapper.fromJsonArray(body, complexType);
@@ -288,7 +292,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 				}
 				return (List<T>) models;
 			} catch (ParseException | IOException e) {
-				throw new RuntimeException("Failed to unmarshall response. ", e); //$NON-NLS-1$
+				throw new RuntimeException("Failed to unmarshall response. ", e); 
 			}
 		} finally {
 			if (response != null)
@@ -304,14 +308,14 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * com.ge.predix.solsvc.bootstrap.ams.factories.AssetClient#getModels(java.
+	 * com.ge.predix.solsvc.bootstrap.ams.client.AssetClient#getModels(java.
 	 * lang.String, java.lang.String, java.util.List)
 	 * 
 	 * This can be now renamed to getModelsByFilter as we are generalizing this
 	 * to all domain objects now.
 	 * 
 	 */
-	@SuppressWarnings({ "nls", "unchecked" })
+	@SuppressWarnings({ "unchecked", "nls" })
 	@Override
 	public List<Object> getModels(String filter, String complexType, List<Header> headers) {
 		CloseableHttpResponse response = null;
@@ -326,7 +330,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 			}
 			try {
 				String body = EntityUtils.toString(response.getEntity());
-				if (body.equals("[]")) //$NON-NLS-1$
+				if (body.equals("[]")) 
 					return null;
 				List<Object> models = new ArrayList<Object>();
 				List<Object> mappedObject2 = this.jsonMapper.fromJsonArray(body, complexType);
@@ -343,7 +347,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 				}
 				return models;
 			} catch (ParseException | IOException e) {
-				throw new RuntimeException("Failed to unmarshall response. ", e); //$NON-NLS-1$
+				throw new RuntimeException("Failed to unmarshall response. ", e); 
 			}
 		} finally {
 			if (response != null)
@@ -355,15 +359,16 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 		}
 	}
 
-	@Override
+	@SuppressWarnings("nls")
+    @Override
 	public <T> List<T> getModelsByFilter(Class<T> complexType, String pathParam, String filter, String value,
 			List<Header> headers) {
 
 		CloseableHttpResponse response = null;
-		log.debug("From getModels byFilter method: "); //$NON-NLS-1$
-		log.debug("Complex type value is : " + complexType); //$NON-NLS-1$
-		log.debug("filter value is : " + filter); //$NON-NLS-1$
-		log.debug("value value is : " + value); //$NON-NLS-1$
+		log.debug("From getModels byFilter method: "); 
+		log.debug("Complex type value is : " + complexType); 
+		log.debug("filter value is : " + filter); 
+		log.debug("value value is : " + value); 
 
 		try {
 			response = get(complexType, pathParam, filter, value, headers);
@@ -377,7 +382,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 			}
 			try {
 				String body = EntityUtils.toString(response.getEntity());
-				if (body.equals("[]")) //$NON-NLS-1$
+				if (body.equals("[]")) 
 					return null;
 				List<Object> models = new ArrayList<Object>();
 				List<T> mappedObject2 = this.jsonMapper.fromJsonArray(body, complexType);
@@ -394,7 +399,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 				}
 				return (List<T>) models;
 			} catch (ParseException | IOException e) {
-				throw new RuntimeException("Failed to unmarshall response. ", e); //$NON-NLS-1$
+				throw new RuntimeException("Failed to unmarshall response. ", e); 
 			}
 		} finally {
 			if (response != null)
@@ -407,13 +412,13 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	}
 
 	@SuppressWarnings("nls")
-	@Override
+    @Override
 	public CloseableHttpResponse deleteModel(String modelUri, List<Header> headers) {
 		CloseableHttpResponse response = null;
 		try {
 			String assetUri = this.assetConfig.getAssetUri();
-			if (!assetUri.endsWith("/") && !modelUri.startsWith("/")) //$NON-NLS-1$ //$NON-NLS-2$
-				assetUri += "/" + modelUri; //$NON-NLS-1$
+			if (!assetUri.endsWith("/") && !modelUri.startsWith("/"))  
+				assetUri += "/" + modelUri; 
 			else
 				assetUri += modelUri;
 			response = delete(assetUri, headers);
@@ -431,12 +436,40 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 		}
 		return response;
 	}
+	
+    @SuppressWarnings("nls")
+    @Override
+    public List<Header> getAssetHeaders()
+    {
+        List<Header> headers = this.restClient.getSecureTokenForClientId();
+        this.restClient.addZoneIdToHeaders(headers, this.assetConfig.getZoneId());
+        headers.add(new BasicHeader("Origin", "http://localhost")); //$NON-NLS-2$
+        return headers;
+    }
 
 	@Override
-	public List<Header> setZoneIdInHeaders(List<Header> headers) {
-		this.restClient.addZoneToHeaders(headers, this.assetConfig.getZoneId());
+	public List<Header> addZoneIdToHeaders(List<Header> headers) {
+		this.restClient.addZoneIdToHeaders(headers, this.assetConfig.getZoneId());
 		return headers;
 	}
+	
+   @Override
+    public List<Header> addZoneIdToHeaders(List<Header> headers, String zoneId) {
+        this.restClient.addZoneIdToHeaders(headers, zoneId);
+        return headers;
+    }
+	
+    @Override
+    public List<Header> addSecureTokenToHeaders(List<Header> headers) {
+        this.restClient.addSecureTokenToHeaders(headers);
+        return headers;
+    }
+    
+    @Override
+    public List<Header> addSecureTokenToHeaders(List<Header> headers, String token) {
+        return this.restClient.addSecureTokenToHeaders(headers, token);
+    }
+
 
 	/**
 	 * @param clazz
@@ -452,11 +485,11 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	 *             -
 	 */
 	@SuppressWarnings("nls")
-	protected <T> List<T> getObjectFromJson(Class<T> clazz, HttpResponse httpResponse)
+    protected <T> List<T> getObjectFromJson(Class<T> clazz, HttpResponse httpResponse)
 			throws ParseException, IOException {
 		org.apache.http.HttpEntity responseEntity = httpResponse.getEntity();
 		String json = EntityUtils.toString(responseEntity);
-		log.debug("getObjectFromJson clazz=" + clazz + " response=" + json); //$NON-NLS-1$ //$NON-NLS-2$
+		log.debug("getObjectFromJson clazz=" + clazz + " response=" + json);  
 
 		return this.jsonMapper.fromJsonArray(json, clazz);
 	}
@@ -498,7 +531,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 		List<Header> localheaders = ensureDefaultHeadersArePresent(headers);
 		String url = this.restMarshal.getPath(objects.get(0).getClass());
 		String body = this.jsonMapper.toJson(objects);
-		log.debug("url=" + url + " create json=" + body); //$NON-NLS-1$ //$NON-NLS-2$
+		log.debug("url=" + url + " create json=" + body);  
 		CloseableHttpResponse response = this.restClient.post(url, body, localheaders,
 				this.assetConfig.getAssetConnectionTimeout(), this.assetConfig.getAssetSocketTimeout());
 		return response;
@@ -520,7 +553,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 		List<Header> localheaders = ensureDefaultHeadersArePresent(headers);
 		String url = this.restMarshal.createCustomModelUrlForPost(objects.get(0));
 		String json = this.jsonMapper.toJson(objects);
-		log.debug("url=" + url + " create json=" + json); //$NON-NLS-1$ //$NON-NLS-2$
+		log.debug("url=" + url + " create json=" + json);  
 		CloseableHttpResponse response = this.restClient.post(url, json, localheaders,
 				this.assetConfig.getAssetConnectionTimeout(), this.assetConfig.getAssetSocketTimeout());
 		return response;
@@ -564,7 +597,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 		String url = this.restMarshal.createCustomModelUrlForPut(object);
 		List<Header> localheaders = ensureDefaultHeadersArePresent(headers);
 		String json = this.jsonMapper.toJson(Arrays.asList(object));
-		log.debug("url=" + url + " create json=" + json); //$NON-NLS-1$ //$NON-NLS-2$
+		log.debug("url=" + url + " create json=" + json);  
 		CloseableHttpResponse response = this.restClient.put(url, json, localheaders,
 				this.assetConfig.getAssetConnectionTimeout(), this.assetConfig.getAssetSocketTimeout());
 
@@ -599,24 +632,25 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 			json = this.jsonMapper.toJson(Arrays.asList(object));
 		}
 		List<Header> localheaders = ensureDefaultHeadersArePresent(headers);
-		log.debug("UUUurl=" + url + " create json=" + json); //$NON-NLS-1$ //$NON-NLS-2$
+		log.debug("UUUurl=" + url + " create json=" + json); 
 		CloseableHttpResponse response = this.restClient.put(url, json, localheaders,
 				this.assetConfig.getAssetConnectionTimeout(), this.assetConfig.getAssetSocketTimeout());
 
 		return response;
 	}
 
-	private List<Header> ensureDefaultHeadersArePresent(List<Header> headers) {
+	@SuppressWarnings("nls")
+    private List<Header> ensureDefaultHeadersArePresent(List<Header> headers) {
 		List<Header> localHeaders = headers;
 		boolean contentTypeFound = false;
 		for (Header header : headers) {
-			if (header.getName().equals("Content-Type")) { //$NON-NLS-1$
+			if (header.getName().equals("Content-Type")) { 
 				contentTypeFound = true;
 				break;
 			}
 		}
 		if (!contentTypeFound) {
-			localHeaders.add(new BasicHeader("Content-Type", "application/json")); //$NON-NLS-1$//$NON-NLS-2$
+			localHeaders.add(new BasicHeader("Content-Type", "application/json")); 
 		}
 		return localHeaders;
 	}
@@ -685,16 +719,16 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	 * @return HttpResponse
 	 */
 	@SuppressWarnings("nls")
-	public CloseableHttpResponse get(Class<?> clazz, String pathParam, List<Header> headers) {
+    public CloseableHttpResponse get(Class<?> clazz, String pathParam, List<Header> headers) {
 		// config.setupRestMarshal(context);
 		String url = this.restMarshal.getPath(clazz);
 		if (pathParam != null)
-			url += "/" + pathParam; //$NON-NLS-1$
+			url += "/" + pathParam; 
 		if (!this.restClient.hasToken(headers))
-			throw new UnsupportedOperationException("calls to Predix Asset require an Authorization token header"); //$NON-NLS-1$
+			throw new UnsupportedOperationException("calls to Predix Asset require an Authorization token header"); 
 		if (!this.restClient.hasZoneId(headers))
-			throw new UnsupportedOperationException("calls to Predix Asset require an Predix-Zone-Id header"); //$NON-NLS-1$
-		log.debug("Calling URL From Asset BootStrap -->" + url); //$NON-NLS-1$
+			throw new UnsupportedOperationException("calls to Predix Asset require an Predix-Zone-Id header"); 
+		log.debug("Calling URL From Asset BootStrap -->" + url); 
 		return this.restClient.get(url, headers, this.assetConfig.getAssetConnectionTimeout(),
 				this.assetConfig.getAssetSocketTimeout());
 	}
@@ -712,14 +746,15 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	 *            -
 	 * @return -
 	 */
-	public CloseableHttpResponse get(Class<?> clazz, String pathParam, String filter, String value,
+	@SuppressWarnings("nls")
+    public CloseableHttpResponse get(Class<?> clazz, String pathParam, String filter, String value,
 			List<Header> headers) {
 		String pathSegment = pathParam;
 		if (pathParam == null) {
-			pathSegment = new String(""); //$NON-NLS-1$
+			pathSegment = new String(""); 
 		}
-		String url = this.restMarshal.getPath(clazz) + "/" + pathSegment + "?filter=" //$NON-NLS-1$//$NON-NLS-2$
-				+ filter + "=" + value; //$NON-NLS-1$
+		String url = this.restMarshal.getPath(clazz) + "/" + pathSegment + "?filter=" 
+				+ filter + "=" + value; 
 		return this.restClient.get(url, headers, this.assetConfig.getAssetConnectionTimeout(),
 				this.assetConfig.getAssetSocketTimeout());
 	}
@@ -732,15 +767,15 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	 * @return -
 	 */
 	@SuppressWarnings("nls")
-	public CloseableHttpResponse getCustomModels(String filterUri, List<Header> headers) {
+    public CloseableHttpResponse getCustomModels(String filterUri, List<Header> headers) {
 		List<Header> localHeaders = ensureDefaultHeadersArePresent(headers);
 		if (!this.restClient.hasToken(headers))
-			throw new UnsupportedOperationException("calls to Predix Asset require an Authorization token header"); //$NON-NLS-1$
+			throw new UnsupportedOperationException("calls to Predix Asset require an Authorization token header"); 
 		if (!this.restClient.hasZoneId(headers))
-			throw new UnsupportedOperationException("calls to Predix Asset require an Predix-Zone-Id header"); //$NON-NLS-1$
+			throw new UnsupportedOperationException("calls to Predix Asset require an Predix-Zone-Id header"); 
 		String assetUri = this.assetConfig.getAssetUri();
-		if (!assetUri.endsWith("/") && filterUri != null && !filterUri.startsWith("/")) //$NON-NLS-1$ //$NON-NLS-2$
-			assetUri += "/" + filterUri; //$NON-NLS-1$
+		if (!assetUri.endsWith("/") && filterUri != null && !filterUri.startsWith("/"))  
+			assetUri += "/" + filterUri; 
 		else if (filterUri != null)
 			assetUri += filterUri;
 		return this.restClient.get(assetUri, localHeaders, this.assetConfig.getAssetConnectionTimeout(),
@@ -758,9 +793,10 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	 *            -
 	 * @return HttpResponse
 	 */
-	public CloseableHttpResponse delete(Class<?> clazz, String pathParam, List<Header> headers) {
+	@SuppressWarnings("nls")
+    public CloseableHttpResponse delete(Class<?> clazz, String pathParam, List<Header> headers) {
 		// config.setupRestMarshal(context);
-		String url = this.restMarshal.getPath(clazz) + "/" + pathParam; //$NON-NLS-1$
+		String url = this.restMarshal.getPath(clazz) + "/" + pathParam; 
 		return this.restClient.delete(url, headers, this.assetConfig.getAssetConnectionTimeout(),
 				this.assetConfig.getAssetSocketTimeout());
 	}
@@ -788,7 +824,7 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see com.ge.predix.solsvc.bootstrap.ams.factories.IFixtureFactory#
+	 * @see com.ge.predix.solsvc.bootstrap.ams.client.IFixtureFactory#
 	 * overrideAssetRestConfig(com.ge.predix.solsvc.bootstrap.ams.common.
 	 * IAssetConfig, com.ge.predix.solsvc.restclient.config.IOauthRestConfig)
 	 *
@@ -815,15 +851,15 @@ public class AssetClientImpl implements AssetClient, RestConstants {
 		HttpEntity entity = response.getEntity();
 		String responseBody = null;
 		try {
-			responseBody = EntityUtils.toString(entity, "UTF-8"); //$NON-NLS-1$
+			responseBody = EntityUtils.toString(entity, "UTF-8"); 
 		} catch (ParseException e) {
-			log.error("Unable to parse HttpResponse Body, swallowing error since we are throwing a few lines down", e); //$NON-NLS-1$
+			log.error("Unable to parse HttpResponse Body, swallowing error since we are throwing a few lines down", e); 
 		} catch (IOException e) {
-			log.error("Unable to parse HttpResponse Body, swallowing error since we are throwing a few lines down", e); //$NON-NLS-1$
+			log.error("Unable to parse HttpResponse Body, swallowing error since we are throwing a few lines down", e); 
 		}
-		throw new HttpResponseException(("Unable to call assetUrl" + assetUri + ".  " + response == null //$NON-NLS-1$ //$NON-NLS-2$
-				? "No HttpResponse" : response.toString()) + " Response Body=" + responseBody + " Entity=" + object //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-				+ " Headers=" + headers, response); //$NON-NLS-1$
+		throw new HttpResponseException(("Unable to call assetUrl" + assetUri + ".  " + response == null  
+				? "No HttpResponse" : response.toString()) + " Response Body=" + responseBody + " Entity=" + object   //$NON-NLS-3$
+				+ " Headers=" + headers, response); 
 	}
 
 }

@@ -1,4 +1,4 @@
-package com.ge.predix.solsvc.bootstrap.ams.factories;
+package com.ge.predix.solsvc.bootstrap.ams.client;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
