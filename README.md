@@ -76,4 +76,4 @@ git clone https://github.com/PredixDev/asset-bootstrap.git
  
  [Asset Tutorial](https://www.predix.io/resources/tutorials/journey.html#1709)
 
-[![Analytics](https://ga-beacon.appspot.com/UA-82773213-1/asset-bootstrap/readme?pixel)](https://github.com/PredixDev)
+[![Analytics](https://predix-beacon.appspot.com/UA-82773213-1/asset-bootstrap/readme?pixel)](https://github.com/PredixDev)
